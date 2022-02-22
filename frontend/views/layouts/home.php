@@ -25,7 +25,8 @@ AppAsset::register($this);
   <title><?= Html::encode($this->title) ?></title>
   <?php $this->head() ?>
 </head>
-<body">
+
+<body>
   <?php $this->beginBody() ?>
 
   <?= $this->render("top_nav", ['base_url' => $base_url]) ?>
@@ -41,7 +42,7 @@ AppAsset::register($this);
   <?= $this->render("footer", ['base_url' => $base_url]) ?>
 
   <?php $this->endBody() ?>
-  </body>
+</body>
 
 </html>
 <?php $this->endPage();

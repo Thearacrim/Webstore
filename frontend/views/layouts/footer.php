@@ -55,7 +55,7 @@ use yii\helpers\Url;
       <div class="col-12 mb-3">
         <div class="w-100 my-3 border-top border-light"></div>
       </div>
-      <div class="col-auto me-auto">
+      <div class="col-6 me-auto">
         <ul class="list-inline text-left footer-icons">
           <li class="list-inline-item border border-light rounded-circle text-center">
             <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
@@ -71,7 +71,7 @@ use yii\helpers\Url;
           </li>
         </ul>
       </div>
-      <div class="col-auto">
+      <div class="col-6 text-right">
         <label class="sr-only" for="subscribeEmail">Email address</label>
         <div class="input-group mb-2">
           <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">

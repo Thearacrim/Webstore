@@ -1,18 +1,15 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var yii\bootstrap4\ActiveForm $form */
-/** @var \frontend\models\ContactForm $model */
-
-use yii\bootstrap4\Html;
-use yii\bootstrap4\ActiveForm;
-use yii\captcha\Captcha;
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap4\ActiveForm */
+/* @var $model app\models\ContactForm */
 
 $this->title = 'Contact';
-$this->params['breadcrumbs'][] = $this->title;
-?>
+// $this->params['breadcrumbs'][] = $this->title;
+// ?>
 <div class="site-contact">
-    <div class="container-fluid bg-light py-5">
+        <!-- Start Content Page -->
+        <div class="container-fluid bg-light py-5">
         <div class="col-md-6 m-auto text-center">
             <h1 class="h1">Contact Us</h1>
             <p>
@@ -21,9 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
         </div>
     </div>
-    <div style="width: 100%">
-        <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=300&amp;hl=en&amp;q=Suzuki%20Siem%20Reap+(Euro%20Khmer%20Voyages)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/golf-gps/">golf range finders</a></iframe>
-    </div>
+
+    <!-- Start Map -->
+    <div id="mapid" style="width: 100%; height: 300px;"></div>
 
     <!-- Start Contact -->
     <div class="container py-5">
@@ -56,5 +53,33 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <!-- End Contact -->
-
+    
+    
 </div>
+
+<?php 
+
+    $script = <<< JS
+        var mymap = L.map('mapid').setView([-23.013104, -43.394365, 13], 13);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 18,
+            attribution: 'Zay Telmplte | Template Design by <a href="https://templatemo.com/">Templatemo</a> | Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1
+        }).addTo(mymap);
+
+        L.marker([-23.013104, -43.394365, 13]).addTo(mymap)
+            .bindPopup("<b>Zay</b> eCommerce Template<br />Location.").openPopup();
+
+        mymap.scrollWheelZoom.disable();
+        mymap.touchZoom.disable();
+
+    JS;
+    $this->registerJs($script);
+
+
+?>

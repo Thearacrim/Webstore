@@ -14,11 +14,13 @@ class ProductSearch extends Product
     /**
      * {@inheritdoc}
      */
+    public $globalSearch;
     public function rules()
     {
         return [
             [['id', 'category_id'], 'integer'],
-            [['image_url', 'name', 'description'], 'safe'],
+            [['status', 'price', 'image_url', 'globalSearch', 'description'], 'safe'],
+            [['rate'], 'number'],
         ];
     }
 
@@ -60,11 +62,13 @@ class ProductSearch extends Product
         $query->andFilterWhere([
             'id' => $this->id,
             'category_id' => $this->category_id,
+            'rate' => $this->rate,
         ]);
 
-        $query->andFilterWhere(['like', 'image_url', $this->image_url])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->orFilterWhere(['like', 'status', $this->globalSearch])
+            ->orFilterWhere(['like', 'price', $this->globalSearch])
+            ->orFilterWhere(['like', 'image_url', $this->globalSearch])
+            ->orFilterWhere(['like', 'description', $this->globalSearch]);
 
         return $dataProvider;
     }

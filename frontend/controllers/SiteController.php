@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use backend\models\Product;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -15,6 +16,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\data\ActiveDataProvider;
 
 /**
  * Site controller
@@ -76,7 +78,13 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = 'home';
-        return $this->render('index');
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find()->all(),
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -145,6 +153,38 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionStore()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find(),
+            'pagination' => [
+                'pageSize' => 6
+            ]
+        ]);
+
+        return $this->render('store', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionCart()
+    {
+        return $this->render('cart');
+    }
+
+    public function actionStoreSingle()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find(),
+        ]);
+
+        $relatedProduct = Product::find()->all();
+        return $this->render('store-single', [
+            'dataProvider' => $dataProvider,
+            'relatedProduct' => $relatedProduct
+        ]);
     }
 
     /**

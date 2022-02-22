@@ -14,13 +14,17 @@ class AppAsset extends AssetBundle
     public $css = [
         'template/css/templatemo.css',
         'template/css/custom.css',
-        'template/css/fontawesome.min.css'
+        'template/css/fontawesome.min.css',
+        'owlcarousel/assets/owl.carousel.min.css',
+        'owlcarousel/assets/owl.theme.default.min.css'
     ];
     public $js = [
         'template/js/jquery-migrate-1.2.1.min.js',
         'template/js/bootstrap.bundle.min.js',
         'template/js/templatemo.js',
         'template/js/custom.js',
+        'template/js/slick.min.js',
+        'owlcarousel/owl.carousel.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

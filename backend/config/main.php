@@ -25,6 +25,10 @@ return [
             // this is the name of the session cookie used for login on the backend
             'name' => 'app-website_backend',
         ],
+        'formatter' => [
+            'thousandSeparator' => ',',
+            'currencyCode' => 'USD',
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

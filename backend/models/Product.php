@@ -8,10 +8,12 @@ use Yii;
  * This is the model class for table "product".
  *
  * @property int $id
+ * @property string|null $status
  * @property int|null $category_id
+ * @property string|null $price
  * @property string|null $image_url
- * @property string|null $name
  * @property string|null $description
+ * @property float|null $rate
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -29,8 +31,13 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['category_id', 'description', 'price', 'status', 'rate'], 'required'],
             [['category_id'], 'integer'],
-            [['image_url', 'name', 'description'], 'string', 'max' => 255],
+            [['image_url'], 'file'],
+            // [['image_url'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['rate'], 'number'],
+            [['status', 'image_url', 'description'], 'string', 'max' => 255],
+            [['price'], 'string', 'max' => 100],
         ];
     }
 
@@ -41,10 +48,17 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'status' => 'Status',
             'category_id' => 'Category ID',
+            'price' => 'Price',
             'image_url' => 'Image Url',
-            'name' => 'Name',
             'description' => 'Description',
+            'rate' => 'Rate',
         ];
+    }
+
+    public function getImageUrl()
+    {
+        return str_replace("backend", 'frontend', Yii::$app->request->baseUrl) . "/" . $this->image_url;
     }
 }

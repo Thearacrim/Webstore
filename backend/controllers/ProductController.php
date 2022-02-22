@@ -4,9 +4,13 @@ namespace backend\controllers;
 
 use backend\models\Product;
 use backend\models\ProductSearch;
+use kcfinder\path;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Inflector;
+use yii\web\UploadedFile;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -70,14 +74,27 @@ class ProductController extends Controller
         $model = new Product();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                $imagename = Inflector::slug($model->status) . '-' . time();
+                $model->image_url = UploadedFile::getInstance($model, 'image_url');
+                $upload_path = Yii::getAlias("@frontend/web/uploads/");
+                if (!empty($model->image_url)) {
+                    if (!is_dir($upload_path)) {
+                        mkdir($upload_path, 0777, true);
+                    }
+                    $model->image_url->saveAs($upload_path . $imagename . '.' . $model->image_url->extension);
+                    //save file uploaded to db
+                    $model->image_url = 'uploads/' . $imagename . '.' . $model->image_url->extension;
+                }
+                $model->save();
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
     }
@@ -93,7 +110,20 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $imagename = Inflector::slug($model->status) . '-' . time();
+            $model->image_url = UploadedFile::getInstance($model, 'image_url');
+            $upload_path = Yii::getAlias("@frontend/web/uploads/");
+            if (!empty($model->image_url)) {
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, true);
+                }
+                $model->image_url->saveAs($upload_path . $imagename . '.' . $model->image_url->extension);
+                //save file uploaded to db
+                $model->image_url = 'uploads/' . $imagename . '.' . $model->image_url->extension;
+            }
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
