@@ -217,3 +217,41 @@ $base_url = Yii::getAlias("@web");
     </div>
 </section>
 <!--End Brands-->
+
+<?php
+$script = <<<JS
+
+
+    $(".btn-add-to-cart").click(function(e){
+        e.preventDefault();
+        var id = $(this).closest(".product-item").data("key");
+        
+        $.ajax({
+            url: '',
+            method: 'POST',
+            data: {
+                id: id,
+                action: 'add_to_cart',
+            },
+            success: function(res){
+                var data = JSON.parse(res);
+                if(data['status'] == 'success'){
+                    $("#cart-quantity").text(data['totalCart']);
+                }else{
+                    alert(data['message']);
+                }
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+
+
+    });
+
+JS;
+
+$this->registerJs($script);
+
+
+?>

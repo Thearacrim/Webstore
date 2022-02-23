@@ -19,7 +19,7 @@ $base_url = Yii::getAlias("@web");
                     <a class="btn btn-success text-white mt-2" href="<?= Url::to('store-single') ?>"><i class="far fa-eye"></i></a>
                 </li>
                 <li>
-                    <a class="btn btn-success text-white btn-add-to-cart mt-2" href="<?= Url::to(['site/cart']) ?>"><i class="fas fa-cart-plus"></i></a>
+                    <a class="btn btn-success text-white btn-add-to-cart mt-2" href="#"><i class="fas fa-cart-plus"></i></a>
                 </li>
             </ul>
         </div>

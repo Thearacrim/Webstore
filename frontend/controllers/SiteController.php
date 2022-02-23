@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use backend\models\Cart;
 use backend\models\Product;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
@@ -158,6 +159,23 @@ class SiteController extends Controller
 
     public function actionStore()
     {
+
+        if ($this->request->isAjax) {
+            if ($this->request->post('action') == 'add_to_cart') {
+                $id = $this->request->post('id');
+
+                $cart = new Cart();
+                $cart->user_id = null;
+                $cart->product_id = $id;
+                if ($cart->save()) {
+                    $totalCart = Cart::find()->count();
+                    return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
+                } else {
+                    return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
+                }
+            }
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find(),
             'pagination' => [

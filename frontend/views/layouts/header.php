@@ -1,6 +1,9 @@
 <?php
 
+use backend\models\Cart;
 use yii\helpers\Url;
+
+$totalCart = Cart::find()->count();
 ?>
 <!-- Header -->
 <nav class="navbar navbar-expand-lg navbar-light shadow">
@@ -45,7 +48,7 @@ use yii\helpers\Url;
         </a>
         <a class="nav-icon position-relative text-decoration-none" href="<?= Url::to(['site/cart']) ?>">
           <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-          <span id="cart-quantity" class="position-absolute top-0 left-100 translate-middle badge rounded-pill badge badge-danger">0</span>
+          <span id="cart-quantity" class="position-absolute top-0 left-100 translate-middle badge rounded-pill badge badge-danger"><?= $totalCart ?></span>
         </a>
         <a class="nav-icon position-relative text-decoration-none" href="#">
           <i class="fa fa-fw fa-user text-dark mr-3"></i>
