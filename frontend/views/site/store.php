@@ -84,7 +84,8 @@ $base_url = Yii::getAlias("@web");
                 'dataProvider' => $dataProvider,
                 'itemView' => 'product_cart',
                 'itemOptions' => [
-                    'tag' => false
+                    // 'tag' => false
+                    'class' => "col-md-4 product-item"
                 ],
                 'pager' => [
                     'firstPageLabel' => 'First',

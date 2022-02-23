@@ -17,6 +17,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\data\ActiveDataProvider;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -169,9 +170,25 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionAdd()
+    {
+        $id = \Yii::$app->request->post['id'];
+        $product = Product::find()->id($id)->one();
+        if (!$product) {
+            throw new NotFoundHttpException('It is not have product!');
+        }
+    }
+
     public function actionCart()
     {
-        return $this->render('cart');
+        $relatedProduct = Product::find()->all();
+
+        return $this->render(
+            'cart',
+            [
+                'relatedProduct' => $relatedProduct,
+            ]
+        );
     }
 
     public function actionStoreSingle()

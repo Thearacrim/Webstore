@@ -24,6 +24,7 @@ class AppAsset extends AssetBundle
         'template/js/templatemo.js',
         'template/js/custom.js',
         'template/js/slick.min.js',
+        'template/js/cart.js',
         'owlcarousel/owl.carousel.min.js'
     ];
     public $depends = [
