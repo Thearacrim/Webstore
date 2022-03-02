@@ -48,7 +48,6 @@ $base_url = Yii::getAlias("@web");
                         echo ' <i class="text-dark fa fa-star"></i>';
                     }
                 }
-
                 ?>
             </li>
         </ul>

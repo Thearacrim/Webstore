@@ -1,9 +1,19 @@
 <?php
 
 use backend\models\Cart;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
 use yii\helpers\Url;
 
-$totalCart = Cart::find()->count();
+if (\Yii::$app->user->isGuest) {
+  $totalCart = 0;
+  // $totalCart = $totalCart->quantity;
+} else {
+  $userId = Yii::$app->user->id;
+  $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
+  $totalCart = $totalCart->quantity;
+}
 ?>
 <!-- Header -->
 <nav class="navbar navbar-expand-lg navbar-light shadow">
@@ -27,7 +37,7 @@ $totalCart = Cart::find()->count();
             <a class="nav-link" href="<?= Url::to(['site/about']) ?>">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= Url::to(['site/store']) ?>">Shop</a>
+            <a class="nav-link" href="<?= Url::to(['site/add-cart']) ?>">Shop</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="<?= Url::to(['site/contact']) ?>">Contact</a>
@@ -50,10 +60,45 @@ $totalCart = Cart::find()->count();
           <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
           <span id="cart-quantity" class="position-absolute top-0 left-100 translate-middle badge rounded-pill badge badge-danger"><?= $totalCart ?></span>
         </a>
-        <a class="nav-icon position-relative text-decoration-none" href="#">
-          <i class="fa fa-fw fa-user text-dark mr-3"></i>
-          <!-- <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span> -->
+        <?php
+        if (Yii::$app->user->isGuest) {
+          $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+          $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+        } else {
+          $menuItems[] = [
+            'label' => "",
+            'dropDownOptions' => [
+              'class' => 'dropdown-menu-right'
+            ],
+            'items' => [
+              'layout' => "<h6 style='padding: 0 2rem;'>Login As : " . Yii::$app->user->identity->username . "</h6>
+              <hr>
+              ",
+              [
+
+                'url' => ['/site/logout'],
+                'linkOptions' => [
+                  'data-method' => 'post'
+                ],
+                'label' => 'Logout',
+              ]
+            ]
+          ];
+        }
+        echo Nav::widget([
+          'options' => ['class' => 'navbar-nav'],
+          'items' => $menuItems,
+        ]);
+        ?>
+
+        <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
+          <i class="fa fa-fw fa-user text-dark ml-5"></i>
+          Login
         </a>
+        <span class="mr-3">/</span>
+        <a class="nav-icon position-relative text-decoration-none" href="#">
+          Sing up
+        </a> -->
       </div>
     </div>
 

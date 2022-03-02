@@ -26,13 +26,14 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#navbar" data-offset="72" class="position-relative">
     <?php $this->beginBody() ?>
+    <header class="fixed-top page-header">
+        <?= $this->render("top_nav", ['base_url' => $base_url]) ?>
 
-    <?= $this->render("top_nav", ['base_url' => $base_url]) ?>
-
-    <?= $this->render("header", ['base_url' => $base_url]) ?>
-
+        <?= $this->render("header", ['base_url' => $base_url]) ?>
+    </header>
+    <div class="header-space">sdfa</div>
     <?= $this->render("modal", ['base_url' => $base_url]) ?>
 
     <?= $content ?>
@@ -43,4 +44,4 @@ AppAsset::register($this);
 </body>
 
 </html>
-<?php $this->endPage();
+<?php $this->endPage(); ?>

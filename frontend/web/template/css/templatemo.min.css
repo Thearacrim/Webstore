@@ -70,7 +70,7 @@ ul {
   color: #fff;
 }
 #templatemo_nav_top {
-  min-height: 40px;
+  min-height: 25px;
 }
 #templatemo_nav_top * {
   font-size: 0.9em !important;

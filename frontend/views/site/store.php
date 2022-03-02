@@ -219,19 +219,17 @@ $base_url = Yii::getAlias("@web");
 <!--End Brands-->
 
 <?php
+$add_cart_url = Url::to(['site/add-cart']);
 $script = <<<JS
-
-
+    var base_url = "$base_url";
     $(".btn-add-to-cart").click(function(e){
         e.preventDefault();
-        var id = $(this).closest(".product-item").data("key");
-        
+        var id = $(this).closest(".product-item").data("key")
         $.ajax({
-            url: '',
+            url: "$add_cart_url" ,
             method: 'POST',
             data: {
                 id: id,
-                action: 'add_to_cart',
             },
             success: function(res){
                 var data = JSON.parse(res);
