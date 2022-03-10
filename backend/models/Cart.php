@@ -42,4 +42,9 @@ class Cart extends \yii\db\ActiveRecord
       'product_id' => 'Product ID',
     ];
   }
+
+  public function getProduct()
+  {
+    return $this->hasOne(Product::class, ['id' => 'product_id']);
+  }
 }

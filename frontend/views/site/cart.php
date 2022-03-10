@@ -5,31 +5,34 @@ use yii\bootstrap4\Html;
 use yii\helpers\Url;
 
 $base_url = Yii::getAlias("@web");
-// $totalCart = Cart::find()->count();
-
+// $carts = Cart::find()->where(['user_id' => Yii::$app->user->id])->all();
+// foreach ($carts as $cart) {
+//     echo ($cart->product->price * $cart->quantity) . "<br/>";
+// }
 ?>
 
 <div class="container">
     <div class="cart-main">
         <div class="row">
             <div class="col-8">
-                <div class="card-header">
+                <div class="card-header border">
                     <h2>Items</h2>
                 </div>
-                <div class="card-body">
-                    <!-- <span id="amount-item" style=" font-weight:700;font-size:1.2rem"><?php
-                                                                                            if ($totalCart > 1) {
-                                                                                                echo $totalCart . " </span>Items in Cart";
-                                                                                            } else {
-                                                                                                echo $totalCart . " </span>Item in Cart";
-                                                                                            } ?> -->
+                <div class="card-body border">
+                    <?php
+                    if ($totalCart) {
+                        echo "<span id ='available_item'></span>";
+                    } else {
+                        echo "<span id ='available_item'>There are no items available</span>";
+                    }
+                    ?>
                     <?php foreach ($relatedProduct as $key => $product) { ?>
                         <div class="sec-border row_item_<?= $product['cart_id'] ?> rounded-0 hover p-3">
                             <div class="row ">
-                                <div class="col-2">
+                                <div class="col-3">
                                     <img src="<?= $base_url . '/' . $product['image_url'] ?>" style="width:100px">
                                 </div>
-                                <div class="col-7">
+                                <div class="col-6">
                                     <span class="status"> <?= $product['status'] ?>
                                     </span><br>
                                     <span class="price"> $<?= $product['price'] ?></span><br><br>
@@ -59,52 +62,19 @@ $base_url = Yii::getAlias("@web");
                     <?php } ?>
                 </div>
 
-                <?php if ($totalPrice == 0) {
-                    echo "";
-                } else {
-                    echo "<h4 id='totalprice' class='float-right'>Subtotal:$ " . $totalPrice;
-                }  ?></h4>
-
             </div>
-            <div class="col-4 card rounded ">
+            <div class="col-4 border rounded h-auto">
                 <div class="row ">
                     <div class="card-header w-100 mb-3">
                         <h4>Price Detail</h4>
                     </div>
                     <div class="card-body">
-                        <h4>Subtotal(<span id="amount-item"><?= $totalCart ?></span>): <span id='amount-price'>$<?= $totalPrice ?></span></h4>
-                        <button class="btn btn-primary rounded-0 btn-lg w-100 mt-3">CheckOut</button>
+                        <h4>Subtotal(<span id="amount-item"><?= $totalCart ?></span>): $ <span id='amount-price'><?= $totalPrice ?></span></h4>
+                        <hr>
+                        <a href="<?= Url::to(['site/checkout']) ?>"><button class="btn btn-primary rounded-0 btn-lg w-100 mt-3">CheckOut</button></a>
+                        <hr>
                     </div>
                 </div><br>
-                <hr>
-                <h4>Payment</h4>
-                <div class="row pt-3">
-                    <div class="col-4">
-                        <a href="#">
-                            <img style="width:80px" src="https://is4-ssl.mzstatic.com/image/thumb/Purple115/v4/4a/b7/d9/4ab7d9ea-8e6f-786f-2be0-7ef4afc187be/source/512x512bb.jpg" alt=""></a>
-                    </div>
-                    <div class="col-4">
-                        <a href="#"></a>
-                        <img style="width:80px" src="https://apprecs.org/gp/images/app-icons/300/26/com.paygo24.ibank.jpg" alt="">
-                        </a>
-                    </div>
-                    <div class="col-4">
-                        <a href="#">
-                            <img style="width:80px" src="https://telr.com/sa-en/wp-content/uploads/sites/9/2018/04/visa-w.png" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4">
-                        <img src="" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img src="" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img src="" alt="">
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -190,6 +160,8 @@ $script = <<< JS
                 },
                 success: function(res){
                     var data = JSON.parse(res);
+                    console.log(data);
+                    $("#available_item").text(data['available_item']);
                     $("#amount-item").text(data['totalItem']);
                     $("#amount-price").text(data['totalPrice_in_de_remove']);
                     $("#totalprice").text(data['totalPrice_in_de_remove']);

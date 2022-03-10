@@ -3,12 +3,9 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
-use common\widgets\Alert;
 use frontend\assets\AppAsset;
-use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
-use yii\bootstrap4\Nav;
-use yii\bootstrap4\NavBar;
+
 
 $base_url = Yii::getAlias("@web");
 
@@ -30,15 +27,12 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
     <header class="fixed-top page-header">
         <?= $this->render("top_nav", ['base_url' => $base_url]) ?>
-
         <?= $this->render("header", ['base_url' => $base_url]) ?>
     </header>
     <div class="header-space"></div>
     <?= $this->render("modal", ['base_url' => $base_url]) ?>
 
     <?= $content ?>
-
-    <?= $this->render("footer", ['base_url' => $base_url]) ?>
 
     <?php $this->endBody() ?>
 </body>

@@ -6,6 +6,9 @@ use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 use yii\helpers\Url;
 
+$base_url = Yii::getAlias("@web");
+
+
 if (\Yii::$app->user->isGuest) {
   $totalCart = 0;
   // $totalCart = $totalCart->quantity;
@@ -19,7 +22,7 @@ if (\Yii::$app->user->isGuest) {
 <nav class="navbar navbar-expand-lg navbar-light shadow">
   <div class="container d-flex justify-content-between align-items-center">
 
-    <a class="navbar-brand text-success logo h1 align-self-center" href="<?= Yii::$app->homeUrl ?>">
+    <a class="navbar-brand text-success logo h1 align-self-center" href="<?= Url::to(['/site']) ?>">
       Zay
     </a>
 
@@ -31,7 +34,7 @@ if (\Yii::$app->user->isGuest) {
       <div class="flex-fill">
         <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
           <li class="nav-item">
-            <a class="nav-link" href="<?= Yii::$app->homeUrl ?>">Home</a>
+            <a class="nav-link" href="<?= Url::to(['/site']) ?>">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="<?= Url::to(['site/about']) ?>">About</a>
@@ -66,12 +69,17 @@ if (\Yii::$app->user->isGuest) {
           $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         } else {
           $menuItems[] = [
-            'label' => "",
+            'label' => '',
             'dropDownOptions' => [
               'class' => 'dropdown-menu-right'
             ],
             'items' => [
-              'layout' => "<h6 style='padding: 0 2rem;'>Login As : " . Yii::$app->user->identity->username . "</h6>
+              'layout' => "
+              <a href=" . $base_url . '/site/profile' . " class=''><img class='img-profile d-inline ml-3 rounded-circle' src='https:/media.istockphoto.com/photos/young-man-wearing-headset-and-play-computer-video-games-online-home-picture-id1290727524?b=1&k=20&m=1290727524&s=170667a&w=0&h=8Ff68TwSesdnGUfE_GbVq5-9l-94vga7F0lAZOK8YkQ=' alt=''></a>
+              <div class='d-inline'>
+              <a href=" . $base_url . '/site/profile' . " class=''>" . Yii::$app->user->identity->username . "</a>
+              <span class='email'>" . Yii::$app->user->identity->email . "</span>
+              </div>
               <hr>
               ",
               [

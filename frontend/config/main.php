@@ -25,6 +25,13 @@ return [
             // this is the name of the session cookie used for login on the frontend
             'name' => 'app-website_frontend',
         ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'thousandSeparator' => '.',
+            'decimalSeparator' => ',',
+            'currencyCode' => '$',
+
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

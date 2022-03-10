@@ -1,6 +1,7 @@
 /*
 Custom Css
 */
+@import url("https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Montserrat:ital,wght@0,500;1,400;1,500&display=swap");
 
 h2 {
   font-weight: 700;
@@ -102,6 +103,23 @@ a:hover {
   }
 }
 
+/* profile section */
+
+.img-profile {
+  width: 25%;
+  object-fit: cover;
+  height: 40px;
+}
+.img-profile1 {
+  width: 35%;
+  object-fit: cover;
+  height: 100px;
+}
+.email {
+  font-size: 0.8rem;
+  margin-left: 20px;
+}
+
 /* input spinner */
 .qty .count {
   color: #000;
@@ -169,4 +187,13 @@ input:disabled {
   border: 1px solid #bcc0c4;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.03);
+}
+
+.border-shadow {
+  box-shadow: 0 0.2rem 0.9rem rgb(0 0 0 / 10%);
+  border: 1px solid #acacacac;
+}
+
+.fw-bold {
+  font-weight: 600;
 }
