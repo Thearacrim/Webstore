@@ -15,10 +15,10 @@ $base_url = Yii::getAlias("@web");
 <!-- Open Content -->
 <section class="bg-light">
     <div class="container pb-5">
-        <div class="row">
+        <div class="row product-item" data-key="<?= $products->id ?>">
             <div class="col-lg-5 mt-5">
                 <div class="card mb-3">
-                    <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_10.jpg" alt="Card image cap" id="product-detail">
+                    <img class="card-img img-fluid" src="<?= $base_url ?>/<?= $products->image_url ?>" alt="Card image cap" id="product-detail">
                 </div>
                 <div class="row">
                     <!--Start Controls-->
@@ -117,8 +117,8 @@ $base_url = Yii::getAlias("@web");
             <div class="col-lg-7 mt-5">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="h2">Active Wear</h1>
-                        <p class="h3 py-2">$25.00</p>
+                        <h1 class="h2"><?= $products->status ?></h1>
+                        <p class="h3 py-2">$<?= $products->price ?>.00</p>
                         <p class="py-2">
                             <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star text-warning"></i>
@@ -137,15 +137,15 @@ $base_url = Yii::getAlias("@web");
                         </ul>
 
                         <h6>Description:</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse. Donec condimentum elementum convallis. Nunc sed orci a diam ultrices aliquet interdum quis nulla.</p>
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <h6>Avaliable Color :</h6>
+                        <p><?= $products->description ?></p>
+                        <ul class="list-inline pb-3" id="menu-color">
+                            <li class="list-inline-item">Available Color :
                             </li>
-                            <li class="list-inline-item">
-                                <p class="text-muted"><strong>White / Black</strong></p>
-                            </li>
+                            <li class="list-inline-item"><a class="btn btn-success btn-sm btn-size rounded-circle" data-value="1">White</a></li>
+                            <li class="list-inline-item"><a class="btn btn-success btn-sm btn-size rounded-circle" data-value="2"> Red </a></li>
+                            <!-- <li class="list-inline-item"><span class="btn btn-success btn-size">XL</span></li> -->
                         </ul>
+                        <input type="hidden" name="product-size" id="product-color" value="1">
 
                         <h6>Specification:</h6>
                         <ul class="list-unstyled pb-3">
@@ -162,15 +162,15 @@ $base_url = Yii::getAlias("@web");
                             <input type="hidden" name="product-title" value="Activewear">
                             <div class="row">
                                 <div class="col-auto">
-                                    <ul class="list-inline pb-3">
+                                    <ul id="rmenu" role="menu">
                                         <li class="list-inline-item">Size :
-                                            <input type="hidden" name="product-size" id="product-size" value="S">
                                         </li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">S</span></li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">M</span></li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">L</span></li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">XL</span></li>
+                                        <li class="list-inline-item"><a class="btn btn-success btn-size" data-value="1">S</a></li>
+                                        <li class="list-inline-item"><a class="btn btn-success btn-size" data-value="2">M</a></li>
+                                        <li class="list-inline-item"><a class="btn btn-success btn-size" data-value="3">L</a></li>
+                                        <li class="list-inline-item"><a class="btn btn-success btn-size" data-value="4">XL</a></li>
                                     </ul>
+                                    <input type="hidden" name="search_param" value="1" id="search_param">
                                 </div>
                                 <div class="col-auto">
                                     <ul class="list-inline pb-3">
@@ -178,9 +178,9 @@ $base_url = Yii::getAlias("@web");
                                             Quantity
                                             <input type="hidden" name="product-quanity" id="product-quanity" value="1">
                                         </li>
-                                        <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                        <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
-                                        <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
+                                        <li class="list-inline-item"><a class="btn btn-success" id="btn-minus">-</a></li>
+                                        <li class="list-inline-item"><a class="badge bg-secondary" id="var-value">1</a></li>
+                                        <li class="list-inline-item"><a class="btn btn-success" id="btn-plus">+</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -189,7 +189,7 @@ $base_url = Yii::getAlias("@web");
                                     <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
                                 </div>
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
+                                    <a class="btn btn-success btn-lg btn-add-to-cart" value="<?= Url::to(['/site/login']) ?>">Add To Cart</a>
                                 </div>
                             </div>
                         </form>
@@ -203,7 +203,7 @@ $base_url = Yii::getAlias("@web");
 <!-- Close Content -->
 
 <!-- Start Article -->
-<section class="py-5">
+<section class=" py-5">
     <div class="container">
         <div class="row text-left p-2 pb-3">
             <h4>Related Products</h4>
@@ -287,10 +287,72 @@ $base_url = Yii::getAlias("@web");
 <!-- End Article -->
 
 <?php
+$add_cart_url = Url::to(['site/store-single?id=' . $model->id]);
 
 $script = <<< JS
 
-            var owl = $('.owl-carousel')
+        //     $("#menu-size").on("click", function(e){
+        //     e.preventDefault();
+        //     var this = $(this);
+        //     $("#product-size").text(this.data("value"));
+        //     $("#product-size").attr('name',this.data("value"));
+        // });
+            // $('#menu-size').on('click','a',function(){
+            //     var val = $(this);
+            //     $('#product-size').attr(val.data("value"));
+            //     $("#product-size").name(val.data("value"));
+            // });
+            $(function(){
+                $('#rmenu > li > a').click(function(e){
+                    e.preventDefault();
+                    var val = $(this).attr('data-value');
+                    $('#search_param').attr('name', val);
+                    $('#search_param').val(val);
+                });
+            });
+            $(function(){
+                $('#menu-color > li > a').click(function(e){
+                    e.preventDefault();
+                    var val = $(this).attr('data-value');
+                    $('#product-color').attr('name', val);
+                    $('#product-color').val(val);
+                });
+            });
+
+            var base_url = "$base_url";
+
+            $(".btn-add-to-cart").click(function(e){
+                e.preventDefault();
+                var id = $(this).closest(".product-item").data("key");
+                var colorId = $("#search_param").val();
+                var sizeId = $("#product-color").val();
+                console.log(sizeId);
+                $.ajax({
+                    url: '$add_cart_url' ,
+                    method: 'POST',
+                    data: {
+                        id: id,
+                        colorId : colorId,
+                        sizeId : sizeId
+                    },
+                    success: function(res){
+                        var data = JSON.parse(res);
+                        console.log(data);
+                        // if(data['status'] == 'success'){
+                        //     $("#cart-quantity").text(data['totalCart']);
+                        // }else{
+                        //     alert(data['message']);
+                        // }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                });
+
+
+            });
+
+             var owl = $('.owl-carousel')
             owl.owlCarousel({
             loop:true,
             stagePadding: 50,

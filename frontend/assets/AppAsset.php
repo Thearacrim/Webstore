@@ -16,7 +16,8 @@ class AppAsset extends AssetBundle
         'template/css/custom.css',
         'template/css/fontawesome.min.css',
         'owlcarousel/assets/owl.carousel.min.css',
-        'owlcarousel/assets/owl.theme.default.min.css'
+        'owlcarousel/assets/owl.theme.default.min.css',
+        'https://unpkg.com/aos@2.3.1/dist/aos.css'
     ];
     public $js = [
         'template/js/jquery-migrate-1.2.1.min.js',
@@ -25,7 +26,11 @@ class AppAsset extends AssetBundle
         'template/js/custom.js',
         'template/js/slick.min.js',
         'template/js/cart.js',
-        'owlcarousel/owl.carousel.min.js'
+        'owlcarousel/owl.carousel.min.js',
+        '//cdn.jsdelivr.net/npm/sweetalert2@11',
+        'https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js',
+        'https://polyfill.io/v3/polyfill.min.js?features=default',
+        'https://unpkg.com/aos@2.3.1/dist/aos.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

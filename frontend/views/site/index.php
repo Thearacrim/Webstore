@@ -22,7 +22,7 @@ $base_url = Yii::getAlias("@web");
         <div class="col-12 col-md-4 p-5 mt-3">
             <a href="<?= Url::to(['site/store']) ?>"><img src="<?= $base_url ?>/template/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
             <h5 class="text-center mt-3 mb-3">Watches</h5>
-            <p class="text-center"><a href="<?= Url::to(['site/store']) ?>" class=" btn btn-success">Go Shop</a></p>
+            <p class="text-center"><a href="<?= Url::to(['site/store-watch']) ?>" class=" btn btn-success">Go Shop</a></p>
         </div>
         <div class="col-12 col-md-4 p-5 mt-3">
             <a href="<?= Url::to(['site/store']) ?>"><img src="<?= $base_url ?>/template/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>

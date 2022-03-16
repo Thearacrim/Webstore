@@ -110,7 +110,7 @@ class SiteController extends Controller
 
         $model->password = '';
 
-        return $this->render('login', [
+        return $this->renderAjax('login', [
             'model' => $model,
         ]);
     }
@@ -176,7 +176,6 @@ class SiteController extends Controller
                         $cart->quantity--;
                     }
 
-
                     if ($cart->save()) {
                         $totalCart = Cart::find()
                             ->select(['SUM(quantity) quantity'])
@@ -234,8 +233,8 @@ class SiteController extends Controller
 
         $userId = Yii::$app->user->id;
         $relatedProduct = Yii::$app->db->createCommand(
-            "SELECT product.*, cart.quantity, cart.id AS cart_id FROM cart
-            LEFT JOIN product ON product.id = cart.product_id
+            "SELECT product.*,cart.color, cart.size, cart.quantity, cart.id AS cart_id FROM cart
+            INNER JOIN product ON product.id = cart.product_id
             WHERE cart.user_id = :userId"
         )
             ->bindParam('userId', $userId)
@@ -250,6 +249,8 @@ class SiteController extends Controller
             ")
             ->bindParam("userId", $userId)
             ->queryScalar();
+        $products = Product::find()->all();
+
         // echo '<pre>';
         // print_r($totalPrice);
         // exit;
@@ -257,6 +258,7 @@ class SiteController extends Controller
             'cart',
             [
                 'relatedProduct' => $relatedProduct,
+                'products' => $products,
                 'totalPrice' => $totalPrice,
                 'totalCart' => $totalCart,
             ]
@@ -264,6 +266,47 @@ class SiteController extends Controller
     }
 
     public function actionAddCart()
+    {
+        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
+            if (Yii::$app->user->isGuest) {
+                return $this->render(['site/login']);
+            }
+            $id = $this->request->post('id');
+            $userId = Yii::$app->user->id;
+            $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId])->one();
+            if ($cart) {
+                $cart->quantity++;
+            } else {
+                $cart = new Cart();
+                $cart->user_id = $userId;
+                $cart->product_id = $id;
+                $cart->quantity = 1;
+            }
+            if ($cart->save()) {
+                $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
+                $totalCart = $totalCart->quantity;
+                return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
+            } else {
+                return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
+            }
+
+            return json_encode(['success' => true]);
+        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find(),
+            'pagination' => [
+                'pageSize' => 9
+            ]
+        ]);
+
+        return $this->render('stores/store', [
+            'dataProvider' => $dataProvider,
+        ]);
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionStoreWatch()
     {
         if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
             if (Yii::$app->user->isGuest) {
@@ -292,29 +335,146 @@ class SiteController extends Controller
             return json_encode(['success' => true]);
         }
         $dataProvider = new ActiveDataProvider([
-            'query' => Product::find(),
+            'query' => Product::find()->where(['type_item' => 5]),
             'pagination' => [
-                'pageSize' => 6
+                'pageSize' => 9
             ]
         ]);
 
-        return $this->render('store', [
+        return $this->render('stores/store-watch', [
             'dataProvider' => $dataProvider,
         ]);
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionStoreSingle()
+    public function actionStoreMan()
+    {
+        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
+            if (Yii::$app->user->isGuest) {
+                return $this->redirect(['site/login']);
+            }
+
+            $id = $this->request->post('id');
+            $userId = Yii::$app->user->id;
+            $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId])->one();
+            if ($cart) {
+                $cart->quantity++;
+            } else {
+                $cart = new Cart();
+                $cart->user_id = $userId;
+                $cart->product_id = $id;
+                $cart->quantity = 1;
+            }
+            if ($cart->save()) {
+                $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
+                $totalCart = $totalCart->quantity;
+                return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
+            } else {
+                return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
+            }
+
+            return json_encode(['success' => true]);
+        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find()->where(['type_item' => 2]),
+            'pagination' => [
+                'pageSize' => 9
+            ]
+        ]);
+
+        return $this->render('stores/store-man', [
+            'dataProvider' => $dataProvider,
+        ]);
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionStoreWomen()
+    {
+        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
+            if (Yii::$app->user->isGuest) {
+                Yii::$app->session->setFlash('success', 'Profile updated successfully');
+            } else {
+                Yii::$app->session->setFlash('error', 'Failed to update profile');
+            }
+
+            $id = $this->request->post('id');
+            $userId = Yii::$app->user->id;
+            $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId])->one();
+            if ($cart) {
+                $cart->quantity++;
+            } else {
+                $cart = new Cart();
+                $cart->user_id = $userId;
+                $cart->product_id = $id;
+                $cart->quantity = 1;
+            }
+            if ($cart->save()) {
+                $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
+                $totalCart = $totalCart->quantity;
+                return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
+            } else {
+                return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
+            }
+
+            return json_encode(['success' => true]);
+        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find()->where(['type_item' => 1]),
+            'pagination' => [
+                'pageSize' => 9
+            ]
+        ]);
+
+        return $this->render('stores/store-man', [
+            'dataProvider' => $dataProvider,
+        ]);
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionStoreSingle($id)
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find(),
         ]);
+        $products = Product::find()->where(['id' => $id])->one();
+
+        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
+            if (Yii::$app->user->isGuest) {
+                return $this->render(['site/login']);
+            }
+            $sizeId = $this->request->post('sizeId');
+            $id = $this->request->post('id');
+            return $sizeId;
+            exit;
+            $userId = Yii::$app->user->id;
+            $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId])->one();
+            if ($cart) {
+                $cart->quantity++;
+            } else {
+                $cart = new Cart();
+                $cart->user_id = $userId;
+                $cart->product_id = $id;
+                $cart->quantity = 1;
+            }
+            if ($cart->save()) {
+                $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
+                $totalCart = $totalCart->quantity;
+                return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
+            } else {
+                return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
+            }
+
+            return json_encode(['success' => true]);
+        }
 
         $relatedProduct = Product::find()->all();
-        return $this->render('store-single', [
+        return $this->render('stores/store-single', [
             'dataProvider' => $dataProvider,
-            'relatedProduct' => $relatedProduct
+            'relatedProduct' => $relatedProduct,
+            'products' => $products
         ]);
     }
 

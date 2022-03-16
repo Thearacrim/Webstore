@@ -32,6 +32,8 @@ use dosamigos\ckeditor\CKEditor;
 
     <?= $form->field($model, 'rate')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'type_item')->dropDownList(['1' => 'Women', '2' => 'Man', '3' => 'Sport', '4' => 'Bag', '5' => 'watch', '6' => 'Shores'], ['prompt' => 'Type Item']) ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
@@ -39,3 +41,15 @@ use dosamigos\ckeditor\CKEditor;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php
+
+$script = <<< JS
+    $('.isSelect2').select2({
+        placeholder: "Select a state",
+        width: "100%",
+    });
+    JS;
+$this->registerJs($script);
+
+?>

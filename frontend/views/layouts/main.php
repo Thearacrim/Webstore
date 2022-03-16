@@ -7,12 +7,22 @@ use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
+use yii\bootstrap4\Modal;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 
 $base_url = Yii::getAlias("@web");
 
 AppAsset::register($this);
+?>
+<?php
+Modal::begin([
+    'title' => 'Login',
+    'id' => 'modal',
+    'size' => 'modal-lg',
+]);
+echo "<div id='modalContent'></div>";
+Modal::end();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -45,3 +55,5 @@ AppAsset::register($this);
 
 </html>
 <?php $this->endPage(); ?>
+
+<?php

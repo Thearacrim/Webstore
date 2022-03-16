@@ -55,6 +55,17 @@ $base_url = Yii::getAlias("@web");
     </div>
 </div>
 
+<?php
+$script = <<< JS
+        $('.btn-add-to-cart').on('click',function() {
+            
+        });
+
+        JS;
+$this->registerJs($script);
+
+?>
+
 <!-- <i class="text-warning fa fa-star"></i>
                     <i class="text-warning fa fa-star"></i>
                     <i class="text-warning fa fa-star"></i>
