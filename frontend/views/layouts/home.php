@@ -20,6 +20,7 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>" class="h-100">
 
 <head>
+  <link rel="icon" href="<?= Yii::getAlias('@web') ?>/template/img/favicon.ico" />
   <meta charset="<?= Yii::$app->charset ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <?php $this->registerCsrfMetaTags() ?>
