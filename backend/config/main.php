@@ -1,13 +1,17 @@
 <?php
+
+use yii\web\Request;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
     require __DIR__ . '/params.php',
     require __DIR__ . '/params-local.php'
 );
+$baseUrl = str_replace('/backend/web', '', (new Request)->getBaseUrl());
 
 return [
-    'id' => 'app-website_backend',
+    'id' => 'Yii-website_backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -15,6 +19,8 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            // 'baseUrl' => $baseUrl,
+
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -24,6 +30,9 @@ return [
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'app-website_backend',
+        ],
+        'formater' => [
+            'class' => 'backend\components\Formater',
         ],
         'formatter' => [
             'thousandSeparator' => ',',
@@ -41,9 +50,10 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'showScriptName' => false, // Disable index.php
+            'enablePrettyUrl' => true, // Disable r= routes
             'rules' => [],
         ],
     ],

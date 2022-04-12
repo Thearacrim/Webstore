@@ -3,9 +3,12 @@
 /** @var yii\web\View $this */
 
 use yii\helpers\Url;
+use yii\web\Request;
 
 $this->title = 'My Yii Application';
 $base_url = Yii::getAlias("@web");
+?>
+<?= (new Request)->getBaseUrl();
 ?>
 <!-- Start Categories of The Month -->
 <section class="container py-5">

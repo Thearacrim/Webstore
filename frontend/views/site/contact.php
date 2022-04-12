@@ -4,6 +4,10 @@
 /* @var $form yii\bootstrap4\ActiveForm */
 /* @var $model app\models\ContactForm */
 
+use yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\Html;
+use yii\helpers\Url;
+
 $this->title = 'Contact';
 // $this->params['breadcrumbs'][] = $this->title;
 // 
@@ -20,39 +24,29 @@ $this->title = 'Contact';
         </div>
     </div>
 
-    <!-- Start Map -->
-    <div id="map" style="width: 100%; height: 300px;">
-        <iframe style="width: 100%; height: 300px;" src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d7763.637327597944!2d103.86588289999997!3d13.361549000000014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e6!4m3!3m2!1d13.3751611!2d103.90279939999999!4m3!3m2!1d13.453347599999999!2d103.80898049999999!5e0!3m2!1sen!2skh!4v1647057626854!5m2!1sen!2skh" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-    </div>
+    <div id="dvMap" style="height:100%"></div>
+    <!-- Replace the value of the key parameter with your own API key. -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAl-vYuMnRu_XczpCpg4lZCgKRsUT5-5BM&callback=initMap">
+    </script>
 
     <!-- Start Contact -->
-    <div class="container py-5">
-        <div class="row py-5">
-            <form class="col-md-9 m-auto" method="post" role="form">
-                <div class="row">
-                    <div class="form-group col-md-6 mb-3">
-                        <label for="inputname">Name</label>
-                        <input type="text" class="form-control mt-1" id="name" name="name" placeholder="Name">
-                    </div>
-                    <div class="form-group col-md-6 mb-3">
-                        <label for="inputemail">Email</label>
-                        <input type="email" class="form-control mt-1" id="email" name="email" placeholder="Email">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="inputsubject">Subject</label>
-                    <input type="text" class="form-control mt-1" id="subject" name="subject" placeholder="Subject">
-                </div>
-                <div class="mb-3">
-                    <label for="inputmessage">Message</label>
-                    <textarea class="form-control mt-1" id="message" name="message" placeholder="Message" rows="8"></textarea>
-                </div>
-                <div class="row">
-                    <div class="col text-end mt-2">
-                        <button type="submit" class="btn btn-success btn-lg px-3">Let’s Talk</button>
-                    </div>
-                </div>
-            </form>
+    <div class="container">
+        <div class="row justify-content-center">
+            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+            <div class="input-group">
+                <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
+
+                <?= $form->field($model, 'email') ?>
+            </div>
+            <?= $form->field($model, 'subject') ?>
+
+            <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
+
+            <div class="form-group">
+                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
     <!-- End Contact -->
@@ -63,23 +57,109 @@ $this->title = 'Contact';
 <?php
 
 $script = <<< JS
-        // var mymap = L.map('mapid').setView([-23.013104, -43.394365, 13], 13);
+                var markers = [{
+            "timestamp": 'Alibaug',
+            "latitude": '18.641400',
+            "longitude": '72.872200',
+            "description": 'Alibaug is a coastal town and a municipal council in Raigad District in the Konkan region of Maharashtra, India.'
+        },
+        {
+            "timestamp": 'Mumbai',
+            "latitude": '18.964700',
+            "longitude": '72.825800',
+            "description": 'Mumbai formerly Bombay, is the capital city of the Indian state of Maharashtra.'
+        },
+        {
+            "timestamp": 'Pune',
+            "latitude": '18.523600',
+            "longitude": '73.847800',
+            "description": 'Pune is the seventh largest metropolis in India, the second largest in the state of Maharashtra after Mumbai.'
+        },
+        {
+            "timestamp": 'Bhopal',
+            "latitude": '23.2599',
+            "longitude": '73.857800',
+            "description": 'Pune is the seventh largest metropolis in India, the second largest in the state of Maharashtra after Mumbai.'
+        },
+        {
+            "timestamp": 'Bhopal',
+            "latitude": '26.9124',
+            "longitude": '75.7873',
+            "description": 'Pune is the seventh largest metropolis in India, the second largest in the state of Maharashtra after Mumbai.'
+        }
+        ];
+        window.onload = function() {
+        var mapOptions = {
+            center: new google.maps.LatLng(markers[0].latitude, markers[0].longitude),
+            zoom: 10,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+        var infoWindow = new google.maps.InfoWindow();
+        var lat_lng = new Array();
+        var latlngbounds = new google.maps.LatLngBounds();
+        for (i = 0; i < markers.length; i++) {
+            var data = markers[i]
+            var myLatlng = new google.maps.LatLng(data.latitude, data.longitude);
+            lat_lng.push(myLatlng);
+            var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: data.timestamp
+            });
+            // console.log(i)
 
-        // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-        //     maxZoom: 18,
-        //     attribution: 'Zay Telmplte | Template Design by <a href="https://templatemo.com/">Templatemo</a> | Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-        //         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        //         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        //     id: 'mapbox/streets-v11',
-        //     tileSize: 512,
-        //     zoomOffset: -1
-        // }).addTo(mymap);
+            latlngbounds.extend(marker.position);
+            (function(marker, data) {
+            google.maps.event.addListener(marker, "click", function(e) {
+                infoWindow.setContent(data.timestamp);
+                infoWindow.open(map, marker);
+            });
+            })(marker, data);
+        }
+        map.setCenter(latlngbounds.getCenter());
+        map.fitBounds(latlngbounds);
 
-        // L.marker([-23.013104, -43.394365, 13]).addTo(mymap)
-        //     .bindPopup("<b>Zay</b> eCommerce Template<br />Location.").openPopup();
+        //***********ROUTING****************//
 
-        // mymap.scrollWheelZoom.disable();
-        // mymap.touchZoom.disable();
+
+        //Initialize the Direction Service
+        var service = new google.maps.DirectionsService();
+
+
+
+
+        //Loop and Draw Path Route between the Points on MAP
+        for (var i = 0; i < lat_lng.length; i++) {
+            if ((i + 1) < lat_lng.length) {
+            var src = lat_lng[i];
+            var des = lat_lng[i + 1];
+            // path.push(src);
+
+            service.route({
+                origin: src,
+                destination: des,
+                travelMode: google.maps.DirectionsTravelMode.WALKING
+            }, function(result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+
+                //Initialize the Path Array
+                var path = new google.maps.MVCArray();
+                //Set the Path Stroke Color
+                var poly = new google.maps.Polyline({
+                    map: map,
+                    strokeColor: '#4986E7'
+                });
+                poly.setPath(path);
+                for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
+                    path.push(result.routes[0].overview_path[i]);
+                }
+                }
+            });
+            }
+        }
+        }
+
           $(document).on("click",".trigggerModal",function(){
                   $("#modal").modal("show").find("#modalContent").load($(this).attr("value"));
                   });

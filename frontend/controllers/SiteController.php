@@ -20,10 +20,14 @@ use frontend\models\Customer;
 use frontend\models\Order;
 use frontend\models\OrderItem;
 use frontend\models\Product;
+use frontend\models\ProductSearch;
+use frontend\models\SaveLater;
 use frontend\models\User;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -136,7 +140,7 @@ class SiteController extends Controller
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+            if ($model->sendEmail(Yii::$app->params['Verify'])) {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending your message.');
@@ -204,11 +208,6 @@ class SiteController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->redirect(['site/login']);
         }
-        // $relatedProduct = Cart::find()
-        //     ->select(['product.*', 'cart.*'])
-        //     ->leftJoin('product', 'product.id = cart.product_id')
-        //     ->asArray()
-        //     ->all();
         if ($this->request->isAjax) {
             if ($this->request->post('action') == 'btn_remove_item') {
                 $id = $this->request->post('id');
@@ -228,14 +227,87 @@ class SiteController extends Controller
                     $available_item = "There are no items available";
                     return json_encode(['status' => 'success', 'totalCart' => $totalCart, 'totalItem' => $totalItem, 'totalPrice_in_de_remove' => $totalPrice_in_de_remove, 'available_item' => $available_item]);
                 }
+            } else if ($this->request->post('action') == 'save_for_later') {
+                $id = $this->request->post('id');
+                $save_id = $this->request->post('save_id');
+                $current_user = Yii::$app->user->identity->id;
+                $save_later = SaveLater::find()->where(['user_id' => $current_user, 'product_id' => $save_id])->one();
+                if (Cart::findOne($id)->delete()) {
+                    $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $current_user])->one();
+                    $totalCart = $totalCart->quantity;
+                    $totalPrice_in_de_remove = Yii::$app->db->createCommand("SELECT 
+                        SUM(cart.quantity * product.price) as total_price
+                        FROM cart
+                        INNER JOIN product ON product.id = cart.product_id
+                        WHERE user_id = :userId
+                    ")
+                        ->bindParam("userId", $current_user)
+                        ->queryScalar();
+
+
+                    // $product_save_later = Yii::$app->db->createCommand(
+                    //     "SELECT * FROM `product`
+                    //     "
+                    // )
+                    //     ->queryAll();
+                    // $product_save_later = Product::find()->all();
+
+                    // // echo '<pre>';
+                    // return json_encode($result);
+                    // // exit;
+                    if (!$save_later) {
+                        $save_later = new SaveLater();
+                        $save_later->product_id = $save_id;
+                        $save_later->user_id = $current_user;
+                    }
+                    if ($save_later->save()) {
+                        $product_save_later = Yii::$app->db->createCommand(
+                            "SELECT product.id as id, product.status as status, product.price as price, product.image_url as image_url,save_later.user_id as user_id FROM `product`
+                            INNER JOIN save_later ON save_later.product_id = product.id
+                            WHERE user_id = :user_id
+                            "
+                        )
+                            ->bindParam("user_id", $current_user)
+                            ->queryAll();
+                        $result = [];
+                        foreach ($product_save_later as $product_save) {
+                            $result[] = [
+                                'id' => $product_save['id'],
+                                'url' => $product_save['image_url'],
+                                'status' => $product_save['status'],
+                                'price' => $product_save['price']
+                            ];
+                        }
+                        return json_encode([
+                            'status' => 'success',
+                            'totalPrice_in_de_remove' => $totalPrice_in_de_remove,
+                            'product_save_later' => $result,
+                            'totalCart' => $totalCart,
+                        ]);
+                    }
+                }
+            } else if ($this->request->post('action') == 'move-to-cart') {
+                $id = $this->request->post('save_id');
+                if (SaveLater::find()->where(['product_id' => $id])->one()->delete()) {
+                    return json_encode(['status' => 'success']);
+                }
             }
         }
 
         $userId = Yii::$app->user->id;
         $relatedProduct = Yii::$app->db->createCommand(
-            "SELECT product.*,cart.color, cart.size, cart.quantity, cart.id AS cart_id FROM cart
+            "SELECT product.*,cart.color_id, cart.size_id, cart.quantity, cart.id AS cart_id, variant_size.size, variant_color.color  FROM cart
             INNER JOIN product ON product.id = cart.product_id
-            WHERE cart.user_id = :userId"
+            INNER JOIN variant_size ON variant_size.id = cart.size_id
+            INNER JOIN variant_color ON variant_color.id = cart.color_id
+            WHERE cart.user_id = :userId "
+        )
+            ->bindParam('userId', $userId)
+            ->queryAll();
+        $product_save_later = Yii::$app->db->createCommand(
+            "SELECT product.* FROM save_later
+            INNER JOIN product ON product.id = save_later.product_id
+            WHERE save_later.user_id = :userId "
         )
             ->bindParam('userId', $userId)
             ->queryAll();
@@ -245,15 +317,11 @@ class SiteController extends Controller
                 SUM(cart.quantity * product.price) as total_price
                 FROM cart
                 INNER JOIN product ON product.id = cart.product_id
-                WHERE user_id = :userId
+                WHERE cart.user_id = :userId
             ")
             ->bindParam("userId", $userId)
             ->queryScalar();
         $products = Product::find()->all();
-
-        // echo '<pre>';
-        // print_r($totalPrice);
-        // exit;
         return $this->render(
             'cart',
             [
@@ -261,8 +329,19 @@ class SiteController extends Controller
                 'products' => $products,
                 'totalPrice' => $totalPrice,
                 'totalCart' => $totalCart,
+                'product_save_later' => $product_save_later
             ]
         );
+    }
+
+    public function actionSearch()
+    {
+        $searchModel = new ProductSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('stores/store-result', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
     }
 
     public function actionAddCart()
@@ -294,9 +373,9 @@ class SiteController extends Controller
         }
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find(),
-            'pagination' => [
-                'pageSize' => 9
-            ]
+            // 'pagination' => [
+            //     'pageSize' => 12
+            // ]
         ]);
 
         return $this->render('stores/store', [
@@ -442,34 +521,64 @@ class SiteController extends Controller
         $products = Product::find()->where(['id' => $id])->one();
 
         if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
-            if (Yii::$app->user->isGuest) {
-                return $this->render(['site/login']);
-            }
-            $sizeId = $this->request->post('sizeId');
-            $id = $this->request->post('id');
-            return $sizeId;
-            exit;
-            $userId = Yii::$app->user->id;
-            $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId])->one();
-            if ($cart) {
-                $cart->quantity++;
-            } else {
-                $cart = new Cart();
-                $cart->user_id = $userId;
-                $cart->product_id = $id;
-                $cart->quantity = 1;
-            }
-            if ($cart->save()) {
-                $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
-                $totalCart = $totalCart->quantity;
-                return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
-            } else {
-                return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
-            }
+            if ($this->request->post('action') == 'btn-add-to-cart') {
+                if (Yii::$app->user->isGuest) {
+                    return $this->render(['site/login']);
+                }
+                $colorId = $this->request->post('colorId');
+                $sizeId = $this->request->post('sizeId');
+                $id = $this->request->post('id');
+                $userId = Yii::$app->user->id;
+                $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId, 'color_id' => $colorId, 'size_id' => $sizeId])->one();
+                if ($cart) {
+                    $cart->quantity++;
+                } else {
+                    $cart = new Cart();
+                    $cart->user_id = $userId;
+                    $cart->product_id = $id;
+                    $cart->quantity = 1;
+                    $cart->size_id = $sizeId;
+                    $cart->color_id = $colorId;
+                }
+                if ($cart->save()) {
+                    $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
+                    $totalCart = $totalCart->quantity;
+                    return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
+                } else {
+                    return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
+                }
 
-            return json_encode(['success' => true]);
+                return json_encode(['success' => true]);
+            } else if ($this->request->post('action') == 'btn-buy-now') {
+                if (Yii::$app->user->isGuest) {
+                    return $this->render(['site/login']);
+                }
+                $colorId = $this->request->post('colorId');
+                $sizeId = $this->request->post('sizeId');
+                $id = $this->request->post('id');
+                $userId = Yii::$app->user->id;
+                $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId, 'color_id' => $colorId, 'size_id' => $sizeId])->one();
+                if ($cart) {
+                    $cart->quantity++;
+                } else {
+                    $cart = new Cart();
+                    $cart->user_id = $userId;
+                    $cart->product_id = $id;
+                    $cart->quantity = 1;
+                    $cart->size_id = $sizeId;
+                    $cart->color_id = $colorId;
+                }
+                if ($cart->save()) {
+                    $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
+                    $totalCart = $totalCart->quantity;
+                    return $this->redirect(['site/checkout']);
+                } else {
+                    return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
+                }
+
+                return json_encode(['success' => true]);
+            }
         }
-
         $relatedProduct = Product::find()->all();
         return $this->render('stores/store-single', [
             'dataProvider' => $dataProvider,
@@ -483,7 +592,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionSignup()
+    public function actionSign()
     {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
@@ -491,14 +600,14 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        return $this->render('signup', [
+        return $this->renderAjax('signup', [
             'model' => $model,
         ]);
     }
 
     public function actionCheckout()
     {
-        $this->layout = 'header-sec';
+        // $this->layout = 'header-sec';
         $model = new OrderItem();
         $current_user = Yii::$app->user->id;
         $totalCart = Cart::find()->select(['user_id'])->where(['user_id' => $current_user])->count();
@@ -514,8 +623,10 @@ class SiteController extends Controller
                 ->queryScalar();
             $userId = Yii::$app->user->id;
             $relatedProduct = Yii::$app->db->createCommand(
-                "SELECT product.*, cart.quantity, cart.id AS cart_id FROM cart
-            LEFT JOIN product ON product.id = cart.product_id
+                "SELECT product.*,cart.color_id, cart.size_id, cart.quantity, cart.id AS cart_id, variant_size.size, variant_color.color  FROM cart
+            INNER JOIN product ON product.id = cart.product_id
+            INNER JOIN variant_size ON variant_size.id = cart.size_id
+            INNER JOIN variant_color ON variant_color.id = cart.color_id
             WHERE cart.user_id = :userId"
             )
                 ->bindParam('userId', $userId)
@@ -561,100 +672,13 @@ class SiteController extends Controller
                     ['order_id', 'product_id', 'qty', 'price', 'total'],
                     $order_item_values
                 );
-                if ($query->execute()) {
+                if ($query->exepcute()) {
                     Cart::deleteAll(['id' => ArrayHelper::getColumn($carts, 'id')]);
                     return $this->redirect(['site/success']);
                 }
             }
         }
     }
-    // public function actionBill()
-    // {
-    //     $this->layout = 'header-sec';
-    //     if ($this->request->isAjax) {
-    //         if ($this->request->post('action') == 'info_detail') {
-    //             $id = $this->request->post('id');
-    //             $userId = Yii::$app->user->id;
-    //             $totalCart = Cart::find()->select(['quantity'])->where(['user_id' => $userId])->one();
-    //             $totalCart = $totalCart->quantity;
-    //             $profile = Yii::$app->user->identity->username;
-    //             $customer = Customer::find()->where(['name' => $profile])->one();
-    //             $customerId = Customer::find()->select(['id'])->where(['name' => $profile])->one();
-    //             $orderId = Order::find()->select(['id'])->where(['customer_id' => $customerId])->one();
-    //             $orderItem = OrderItem::find()->where(['product_id' => $id, 'order_id' => $orderId])->one();
-    //             // return $orderItem;
-    //             // exit;
-    //             if ($customer) {
-    //                 ////
-    //                 if ($customerId->id) {
-    //                     if ($orderItem) {
-    //                         // $orderItem = new OrderItem();
-    //                         // $orderItem->order_id = $orderId->id;
-    //                         // $orderItem->product_id = $id;
-    //                         // $orderItem->qty = $totalCart;
-    //                         // $orderItem->save();
-    //                         // return 1;
-    //                     } else {
-    //                         $orderItem = new OrderItem();
-    //                         $orderItem->order_id = $orderId->id;
-    //                         $orderItem->product_id = $id;
-    //                         $orderItem->qty = $totalCart;
-    //                         $orderItem->save();
-    //                         // return 2;
-    //                     }
-    //                 } else {
-    //                     $order = new Order();
-    //                     $order->customer_id = $customerId->id;
-    //                     $order->save();
-    //                     $orderItem = new OrderItem();
-    //                     $orderItem->order_id = $orderId->id;
-    //                     $orderItem->product_id = $orderId->id;
-    //                     $orderItem->qty = $totalCart;
-    //                     $orderItem->save();
-    //                     // return 3;
-    //                 }
-    //             } else {
-    //                 $customer = new Customer();
-    //                 $customer->name = $profile;
-    //                 $customer->address = Yii::$app->user->identity->email;
-    //                 $order = new Order();
-    //                 $order->customer_id = $customerId->id;
-    //                 $order->save();
-    //                 $orderItem = new OrderItem();
-    //                 $orderItem->order_id = $orderId->id;
-    //                 $orderItem->product_id = $id;
-    //                 $orderItem->qty = $totalCart;
-    //                 $orderItem->save();
-    //             }
-    //             if ($orderItem->save()) {
-    //                 $current_user = Yii::$app->user->id;
-    //                 $id_remove = Cart::find()->select(['id'])->where(['user_id' => $current_user])->one();
-    //                 if (Cart::findOne($id_remove)->delete()) {
-    //                     $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $current_user])->one();
-    //                     $totalCart = $totalCart->quantity;
-    //                     $totalItem = Cart::find()->select(['user_id'])->where(['user_id' => $current_user])->count();
-    //                     $totalPrice_in_de_remove = Yii::$app->db->createCommand("SELECT product.price,
-    //                     SUM(cart.quantity * product.price) as total_price
-    //                     FROM cart
-    //                     INNER JOIN product ON product.id = cart.product_id
-    //                     WHERE user_id = :userId
-    //                 ")
-    //                         ->bindParam("userId", $current_user)
-    //                         ->queryScalar();
-    //                     return json_encode(['status' => 'success', 'totalCart' => $totalCart, 'totalItem' => $totalItem, 'totalPrice_in_de_remove' => $totalPrice_in_de_remove]);
-    //                     return $this->redirect('success');
-    //                 }
-    //                 return json_encode(['status' => 'success']);
-    //             } else {
-    //                 return json_encode(['status' => 'error', 'message' => "something went wrong."]);
-    //             }
-
-    //             return json_encode(['success' => true]);
-
-    //             return $this->redirect('success');
-    //         }
-    //     }
-    // }
 
     public function actionSuccess()
     {
@@ -673,12 +697,27 @@ class SiteController extends Controller
 
         $model = User::findOne(Yii::$app->user->id);
         if ($this->request->isPost && $model->load($this->request->post())) {
+            $imagename = Inflector::slug($model->status) . '-' . time();
+            $model->image_url = UploadedFile::getInstance($model, 'image_url');
+            $upload_path = ("profile/uploads/");
+            if (!empty($model->image_url)) {
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, true);
+                }
+                $model->image_url->saveAs($upload_path . $imagename . '.' . $model->image_url->extension);
+                //save file uploaded to db
+                $model->image_url = $imagename . '.' . $model->image_url->extension;
+            }
             $userId = Yii::$app->user->id;
+            // if ($model->image_url == null) {
+            //     Yii::$app->session->setFlash('alert', 'Profile user must edit some changed');
+            // } else {
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Profile updated successfully');
             } else {
                 Yii::$app->session->setFlash('error', 'Failed to update profile');
             }
+
             return $this->redirect(["site/profile"]);
         }
         return $this->render(

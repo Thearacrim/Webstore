@@ -29,9 +29,8 @@ AppAsset::register($this);
 </head>
 <?php
 Modal::begin([
-  'title' => 'Login',
   'id' => 'modal',
-  'size' => 'modal-lg',
+  'size' => 'modal-md',
 ]);
 echo "<div id='modalContent'></div>";
 Modal::end();

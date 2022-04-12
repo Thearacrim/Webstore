@@ -16,11 +16,11 @@ use yii\helpers\Url;
           </li>
           <li>
             <i class="fa fa-phone fa-fw"></i>
-            <a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+            <a class="text-decoration-none" href="tel:010-020-0340">096-892-5454</a>
           </li>
           <li>
             <i class="fa fa-envelope fa-fw"></i>
-            <a class="text-decoration-none" href="mailto:info@company.com">info@company.com</a>
+            <a class="text-decoration-none" href="mailto:thearacrim@gmail.com">thearacrim@gmail.com</a>
           </li>
         </ul>
       </div>
@@ -86,8 +86,8 @@ use yii\helpers\Url;
       <div class="row pt-2">
         <div class="col-12">
           <p class="text-left text-light">
-            Copyright &copy; 2021 Company Name
-            | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
+            Copyright &copy; 2022 Thearacrim
+            | Designed by <a rel="sponsored" href="https://web.facebook.com/cad.dogto/" target="_blank">ថុល​ សុធារ៉ារ៉ារ៉ា</a>
           </p>
         </div>
       </div>

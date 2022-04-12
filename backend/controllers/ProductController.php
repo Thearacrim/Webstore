@@ -44,6 +44,8 @@ class ProductController extends Controller
     {
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        // Set pagination with searchModel
+        $dataProvider->setPagination(['pageSize' => 5]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -72,7 +74,6 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new Product();
-
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $imagename = Inflector::slug($model->status) . '-' . time();
@@ -87,7 +88,6 @@ class ProductController extends Controller
                     $model->image_url = 'uploads/' . $imagename . '.' . $model->image_url->extension;
                 }
                 $model->save();
-
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

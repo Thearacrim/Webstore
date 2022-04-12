@@ -6,283 +6,263 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ListView;
 
-$this->title = 'About';
+$this->title = 'Single-item';
 $this->params['breadcrumbs'][] = $this->title;
 
 $base_url = Yii::getAlias("@web");
 
 ?>
 <!-- Open Content -->
-<section class="bg-light">
-    <div class="container pb-5">
-        <div class="row product-item" data-key="<?= $products->id ?>">
-            <div class="col-lg-5 mt-5">
-                <div class="card mb-3">
-                    <img class="card-img img-fluid" src="<?= $base_url ?>/<?= $products->image_url ?>" alt="Card image cap" id="product-detail">
-                </div>
-                <div class="row">
-                    <!--Start Controls-->
-                    <div class="col-1 align-self-center">
-                        <a href="#multi-item-example" role="button" data-bs-slide="prev">
-                            <i class="text-dark fas fa-chevron-left"></i>
-                            <span class="sr-only">Previous</span>
-                        </a>
+<div class="loader">
+</div>
+<div class="loading">
+    <section class="bg-light">
+        <div class="container pb-5">
+            <div class="row product-item" data-key="<?= $products->id ?>">
+                <div class="col-lg-5 mt-5">
+                    <div class="card mb-3">
+                        <img class="card-img img-fluid" src="<?= $base_url ?>/<?= $products->image_url ?>" alt="Card image cap" id="product-detail">
                     </div>
-                    <!--End Controls-->
-                    <!--Start Carousel Wrapper-->
-                    <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
-                        <!--Start Slides-->
-                        <div class="carousel-inner product-links-wap" role="listbox">
-
-                            <!--First slide-->
-                            <div class="carousel-item active">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_01.jpg" alt="Product Image 1">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_02.jpg" alt="Product Image 2">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_03.jpg" alt="Product Image 3">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/.First slide-->
-
-                            <!--Second slide-->
-                            <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_04.jpg" alt="Product Image 4">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_05.jpg" alt="Product Image 5">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_06.jpg" alt="Product Image 6">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/.Second slide-->
-
-                            <!--Third slide-->
-                            <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_07.jpg" alt="Product Image 7">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_08.jpg" alt="Product Image 8">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_09.jpg" alt="Product Image 9">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/.Third slide-->
+                    <div class="row">
+                        <!--Start Controls-->
+                        <div class="col-1 align-self-center">
+                            <a href="#multi-item-example" role="button" data-bs-slide="prev">
+                                <i class="text-dark fas fa-chevron-left"></i>
+                                <span class="sr-only">Previous</span>
+                            </a>
                         </div>
-                        <!--End Slides-->
-                    </div>
-                    <!--End Carousel Wrapper-->
-                    <!--Start Controls-->
-                    <div class="col-1 align-self-center">
-                        <a href="#multi-item-example" role="button" data-bs-slide="next">
-                            <i class="text-dark fas fa-chevron-right"></i>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                    <!--End Controls-->
-                </div>
-            </div>
-            <!-- col end -->
-            <div class="col-lg-7 mt-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h1 class="h2"><?= $products->status ?></h1>
-                        <p class="h3 py-2">$<?= $products->price ?>.00</p>
-                        <p class="py-2">
-                            <i class="fa fa-star text-warning"></i>
-                            <i class="fa fa-star text-warning"></i>
-                            <i class="fa fa-star text-warning"></i>
-                            <i class="fa fa-star text-warning"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
-                        </p>
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <h6>Brand:</h6>
-                            </li>
-                            <li class="list-inline-item">
-                                <p class="text-muted"><strong>Easy Wear</strong></p>
-                            </li>
-                        </ul>
+                        <!--End Controls-->
+                        <!--Start Carousel Wrapper-->
+                        <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
+                            <!--Start Slides-->
+                            <div class="carousel-inner product-links-wap" role="listbox">
 
-                        <h6>Description:</h6>
-                        <p><?= $products->description ?></p>
-                        <ul class="list-inline pb-3" id="menu-color">
-                            <li class="list-inline-item">Available Color :
-                            </li>
-                            <li class="list-inline-item"><a class="btn btn-success btn-sm btn-size rounded-circle" data-value="1">White</a></li>
-                            <li class="list-inline-item"><a class="btn btn-success btn-sm btn-size rounded-circle" data-value="2"> Red </a></li>
-                            <!-- <li class="list-inline-item"><span class="btn btn-success btn-size">XL</span></li> -->
-                        </ul>
-                        <input type="hidden" name="product-size" id="product-color" value="1">
-
-                        <h6>Specification:</h6>
-                        <ul class="list-unstyled pb-3">
-                            <li>Lorem ipsum dolor sit</li>
-                            <li>Amet, consectetur</li>
-                            <li>Adipiscing elit,set</li>
-                            <li>Duis aute irure</li>
-                            <li>Ut enim ad minim</li>
-                            <li>Dolore magna aliqua</li>
-                            <li>Excepteur sint</li>
-                        </ul>
-
-                        <form action="" method="GET">
-                            <input type="hidden" name="product-title" value="Activewear">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <ul id="rmenu" role="menu">
-                                        <li class="list-inline-item">Size :
-                                        </li>
-                                        <li class="list-inline-item"><a class="btn btn-success btn-size" data-value="1">S</a></li>
-                                        <li class="list-inline-item"><a class="btn btn-success btn-size" data-value="2">M</a></li>
-                                        <li class="list-inline-item"><a class="btn btn-success btn-size" data-value="3">L</a></li>
-                                        <li class="list-inline-item"><a class="btn btn-success btn-size" data-value="4">XL</a></li>
-                                    </ul>
-                                    <input type="hidden" name="search_param" value="1" id="search_param">
+                                <!--First slide-->
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_01.jpg" alt="Product Image 1">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_02.jpg" alt="Product Image 2">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_03.jpg" alt="Product Image 3">
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-auto">
-                                    <ul class="list-inline pb-3">
-                                        <li class="list-inline-item text-right">
-                                            Quantity
-                                            <input type="hidden" name="product-quanity" id="product-quanity" value="1">
-                                        </li>
-                                        <li class="list-inline-item"><a class="btn btn-success" id="btn-minus">-</a></li>
-                                        <li class="list-inline-item"><a class="badge bg-secondary" id="var-value">1</a></li>
-                                        <li class="list-inline-item"><a class="btn btn-success" id="btn-plus">+</a></li>
-                                    </ul>
+                                <!--/.First slide-->
+
+                                <!--Second slide-->
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_04.jpg" alt="Product Image 4">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_05.jpg" alt="Product Image 5">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_06.jpg" alt="Product Image 6">
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!--/.Second slide-->
+
+                                <!--Third slide-->
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_07.jpg" alt="Product Image 7">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_08.jpg" alt="Product Image 8">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="<?= $base_url ?>/template/img/product_single_09.jpg" alt="Product Image 9">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/.Third slide-->
                             </div>
-                            <div class="row pb-3">
-                                <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
-                                </div>
-                                <div class="col d-grid">
-                                    <a class="btn btn-success btn-lg btn-add-to-cart" value="<?= Url::to(['/site/login']) ?>">Add To Cart</a>
-                                </div>
-                            </div>
-                        </form>
-
+                            <!--End Slides-->
+                        </div>
+                        <!--End Carousel Wrapper-->
+                        <!--Start Controls-->
+                        <div class="col-1 align-self-center">
+                            <a href="#multi-item-example" role="button" data-bs-slide="next">
+                                <i class="text-dark fas fa-chevron-right"></i>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <!--End Controls-->
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Close Content -->
-
-<!-- Start Article -->
-<section class=" py-5">
-    <div class="container">
-        <div class="row text-left p-2 pb-3">
-            <h4>Related Products</h4>
-        </div>
-
-        <!--Start Carousel Wrapper-->
-        <!-- <div class="item"> -->
-        <div class="owl-carousel owl-theme">
-            <?php
-            foreach ($relatedProduct as $key => $model) {
-            ?>
-                <?php
-
-                $base_url = Yii::getAlias("@web");
-                /*@var \yii\data\ActiveDataProvider $dataProvider*/
-
-                ?>
-
-                <div class="card mb-4 product-wap rounded-0">
-                    <div class="card rounded-0">
-                        <img class="card-img rounded-0 img-fluid image-size" src="<?= $base_url . '/' . $model->image_url ?>" />
-                        <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a class="btn btn-success text-white" href="<?= Url::to('store-single') ?>"><i class="far fa-heart"></i></a>
+                <!-- col end -->
+                <div class="col-lg-7 col-sm-12 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="h2"><?= $products->status ?></h1>
+                            <h1 class="price-single">$<?= $products->price ?>.00</h1>
+                            <p class="py-2">
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+                            </p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Brand:</h6>
                                 </li>
-                                <li>
-                                    <a class="btn btn-success text-white mt-2" href="<?= Url::to('store-single') ?>"><i class="far fa-eye"></i></a>
-                                </li>
-                                <li>
-                                    <a class="btn btn-success text-white mt-2" href="<?= Url::to('store-single') ?>"><i class="fas fa-cart-plus"></i></a>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>Easy Wear</strong></p>
                                 </li>
                             </ul>
+                            <h6>Description:</h6>
+                            <p><?= $products->description ?></p>
+
+                        </div>
+                        <div class="swatches d-flex pr-5 pl-5 justify-content-between">
+                            <div id="variant-size" class="swatch clearfix" data-option-index="0">
+                                <input type="hidden" name="search_param" value="1" id="variantSize">
+                                <div class="header">Size</div>
+                                <div data-value="1" class="swatch-element plain m available">
+                                    <input id="swatch-0-m" type="radio" name="option-0" value="M" checked />
+                                    <label for="swatch-0-m">
+                                        M
+                                        <img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+                                    </label>
+                                </div>
+                                <div data-value="2" class="swatch-element plain l available">
+                                    <input id="swatch-0-l" type="radio" name="option-0" value="L" />
+                                    <label for="swatch-0-l">
+                                        L
+                                        <img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+                                    </label>
+                                </div>
+                                <div data-value="3" class="swatch-element plain xl available">
+                                    <input id="swatch-0-xl" type="radio" name="option-0" value="XL" />
+                                    <label for="swatch-0-xl">
+                                        XL
+                                        <img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+                                    </label>
+                                </div>
+                                <div data-value="4" class="swatch-element plain xxl available">
+                                    <input id="swatch-0-xxl" type="radio" name="option-0" value="XXL" />
+                                    <label for="swatch-0-xxl">
+                                        XXL
+                                        <img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="variant-color" class="swatch clearfix" data-option-index="1">
+                                <input type="hidden" name="search_param" value="1" id="variantColor">
+                                <div class="header">Color</div>
+                                <div data-value="1" class="swatch-element color blue available">
+                                    <div class="tooltip">Blue</div>
+                                    <input quickbeam="color" id="swatch-1-blue" type="radio" name="option-1" value="1" checked />
+                                    <label for="swatch-1-blue" style="border-color: blue;">
+                                        <img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+                                        <span style="background-color: blue;"></span>
+                                    </label>
+                                </div>
+                                <div data-value="2" class="swatch-element color red available">
+                                    <div class="tooltip">Red</div>
+                                    <input quickbeam="color" id="swatch-1-red" type="radio" name="option-1" value="2" />
+                                    <label for="swatch-1-red" style="border-color: red;">
+                                        <img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+                                        <span style="background-color: red;"></span>
+                                    </label>
+                                </div>
+                                <div data-value="3" class="swatch-element color yellow available">
+                                    <div class="tooltip">Yellow</div>
+                                    <input quickbeam="color" id="swatch-1-yellow" type="radio" name="option-1" value="3" />
+                                    <label for="swatch-1-yellow" style="border-color: yellow;">
+                                        <img class="crossed-out" src="//cdn.shopify.com/s/files/1/1047/6452/t/1/assets/soldout.png?10994296540668815886" />
+                                        <span style="background-color: yellow;"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-qty d-flex pr-5 pl-5 justify-content-between pb-5">
+                            <?php if (Yii::$app->user->isGuest) { ?>
+                                <a href="#" class="btn btn-primary btn-sm btn-buy-now rounded-0 trigggerModal" value="<?= Url::to(['/site/login']) ?>"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+                                <a class="btn btn-primary btn-sm btn-add-to-cart rounded-0 trigggerModal" value="<?= Url::to(['/site/login']) ?>"><i class="fa-solid fa-cart-shopping"></i> Add To Cart</a>
+                            <?php } else { ?>
+                                <a href="#" class="btn btn-primary btn-sm btn-buy-now rounded-0l"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+                                <a class="btn btn-primary btn-sm btn-add-to-cart rounded-0l"><i class="fa-solid fa-cart-shopping"></i> Add To Cart</a>
+                            <?php } ?>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <a href="<?= Url::to('store-single') ?>" class="h3 text-decoration-none"><?= $model->status ?></a>
-                        <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                            <li>M/L/X/XL</li>
-                            <li class="pt-2">
-                                <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
-                                <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
-                                <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
-                                <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
-                                <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
-                            </li>
-                        </ul>
-                        <ul class="list-unstyled d-flex justify-content-center mb-1">
-                            <li>
-                                <?=
-
-                                $star_str = '';
-                                for ($i = 1; $i <= 5; $i++) {
-                                    if ($i <= $model->rate) {
-                                        echo ' <i class="text-warning fa fa-star"></i>';
-                                    } else {
-                                        echo ' <i class="fas fa-star"></i>';
-                                    }
-                                }
-
-                                ?>
-                            </li>
-                        </ul>
-                        <p class="text-center mb-0">$<?= $model->price ?></p>
-                    </div>
                 </div>
-            <?php
-            }
-
-            ?>
-            <!-- </div> -->
+            </div>
         </div>
+    </section>
+    <!-- Close Content -->
+    <!-- Start Article -->
+    <section class=" py-5">
+        <div class="container">
+            <div class="row text-left p-2 pb-3">
+                <h4>You might also like</h4>
+            </div>
 
-    </div>
+            <!--Start Carousel Wrapper-->
+            <!-- <div class="item"> -->
+            <div class="owl-carousel owl-theme">
+                <?php
+                foreach ($relatedProduct as $key => $model) {
+                ?>
+                    <?php
 
+                    $base_url = Yii::getAlias("@web");
+                    /*@var \yii\data\ActiveDataProvider $dataProvider*/
 
+                    ?>
 
-</section>
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0">
+                            <img class="card-img rounded-0 img-fluid image-size" src="<?= $base_url . '/' . $model->image_url ?>" />
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a>
+                                    </li>
+                                    <li>
+                                        <a class="btn btn-success text-white mt-2" href="<?= Url::to('store-single?id=' . $model->id) ?>"><i class="far fa-eye"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                }
 
+                ?>
+                <!-- </div> -->
+            </div>
+        </div>
+    </section>
+</div>
 
 <!-- End Article -->
 
@@ -290,59 +270,84 @@ $base_url = Yii::getAlias("@web");
 $add_cart_url = Url::to(['site/store-single?id=' . $model->id]);
 
 $script = <<< JS
-
-        //     $("#menu-size").on("click", function(e){
-        //     e.preventDefault();
-        //     var this = $(this);
-        //     $("#product-size").text(this.data("value"));
-        //     $("#product-size").attr('name',this.data("value"));
-        // });
-            // $('#menu-size').on('click','a',function(){
-            //     var val = $(this);
-            //     $('#product-size').attr(val.data("value"));
-            //     $("#product-size").name(val.data("value"));
-            // });
+            $(document).on("click",".trigggerModal",function(){
+                  $("#modal").modal("show").find("#modalContent").load($(this).attr("value"));
+                  });
             $(function(){
-                $('#rmenu > li > a').click(function(e){
-                    e.preventDefault();
+                $('#variant-color > div').click(function(){
                     var val = $(this).attr('data-value');
-                    $('#search_param').attr('name', val);
-                    $('#search_param').val(val);
+                    console.log(val);
+                    $('#variantColor').attr('name', val);
+                    $('#variantColor').val(val);
                 });
             });
             $(function(){
-                $('#menu-color > li > a').click(function(e){
-                    e.preventDefault();
+                $('#variant-size > div').click(function(){
                     var val = $(this).attr('data-value');
-                    $('#product-color').attr('name', val);
-                    $('#product-color').val(val);
+                    $('#variantSize').attr('name', val);
+                    $('#variantSize').val(val);
                 });
             });
-
+            setTimeout(function(){
+                $('.loader').css('display','none');
+            }, 1300);
             var base_url = "$base_url";
 
             $(".btn-add-to-cart").click(function(e){
                 e.preventDefault();
                 var id = $(this).closest(".product-item").data("key");
-                var colorId = $("#search_param").val();
-                var sizeId = $("#product-color").val();
+                var colorId = $("#variantColor").val();
+                var sizeId = $("#variantSize").val();
                 console.log(sizeId);
+                console.log(colorId);
                 $.ajax({
                     url: '$add_cart_url' ,
                     method: 'POST',
                     data: {
                         id: id,
                         colorId : colorId,
-                        sizeId : sizeId
+                        sizeId : sizeId,
+                        action: 'btn-add-to-cart'
                     },
                     success: function(res){
                         var data = JSON.parse(res);
                         console.log(data);
-                        // if(data['status'] == 'success'){
-                        //     $("#cart-quantity").text(data['totalCart']);
-                        // }else{
-                        //     alert(data['message']);
-                        // }
+                        if(data['status'] == 'success'){
+                            $("#cart-quantity").text(data['totalCart']);
+                        }else{
+                            alert(data['message']);
+                        }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                });
+
+
+            });
+            $(".btn-buy-now").click(function(){
+                var id = $(this).closest(".product-item").data("key");
+                var colorId = $("#variantColor").val();
+                var sizeId = $("#variantSize").val();
+                console.log(sizeId);
+                console.log(colorId);
+                $.ajax({
+                    url: '$add_cart_url' ,
+                    method: 'POST',
+                    data: {
+                        id: id,
+                        colorId : colorId,
+                        sizeId : sizeId,
+                        action:'btn-buy-now'
+                    },
+                    success: function(res){
+                        var data = JSON.parse(res);
+                        console.log(data);
+                        if(data['status'] == 'success'){
+                            $("#cart-quantity").text(data['totalCart']);
+                        }else{
+                            alert(data['message']);
+                        }
                     },
                     error: function(err){
                         console.log(err);

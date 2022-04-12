@@ -83,7 +83,7 @@ $base_url = Yii::getAlias("@web");
                 'itemView' => 'product_cart',
                 'itemOptions' => [
                     // 'tag' => false
-                    'class' => "col-md-4 product-item"
+                    'class' => "col-md-4 product-item block"
                 ],
                 'pager' => [
                     'firstPageLabel' => 'First',
@@ -241,9 +241,21 @@ $script = <<<JS
                 console.log(err);
             }
         });
-
-
     });
+    $(document).ready(function () {
+            $(".block").slice(0, 12).show();
+            if ($(".block:hidden").length != 0) {
+                $("#load_more").show();    
+            }
+            $("#load_more").on("click", function (e) {
+                e.preventDefault();
+                $(".block:hidden").slice(0, 12).slideDown();
+                if ($(".block:hidden").length == 0) {
+                    $("#load_more").text("No More to view")
+                        .fadOut("slow");
+                }
+            });
+        })
 
 JS;
 

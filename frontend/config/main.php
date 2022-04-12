@@ -1,4 +1,8 @@
 <?php
+
+use yii\web\Request;
+
+$baseUrl = str_replace('/frontend/web', '', (new Request)->getBaseUrl());
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -14,6 +18,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'baseUrl' => $baseUrl,
         ],
 
         'user' => [
@@ -44,15 +49,20 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-            ],
+            // 'baseUrl' => $baseUrl,
+            'showScriptName' => false, // Disable index.php
+            'enablePrettyUrl' => true, // Disable r= routes
+            'rules' => array(
+                // 'home' => 'site/index',
+                // 'about' => 'site/about',
+                // 'contact' => 'site/contact',
+                // 'add-cart' => 'site/add-cart',
+                // 'store-single/id/<id:\d+>' => 'site/store-single/id/<id:\d+>'
+            ),
         ],
+
     ],
     'params' => $params,
 ];

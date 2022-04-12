@@ -10,11 +10,25 @@ h2 {
 h4 {
   font-weight: 700;
 }
+.block {
+  display: none;
+}
 
 .image-size {
   width: 100%;
   height: 320px;
   object-fit: cover;
+}
+@media screen and (max-width: 575px) {
+  .product-item {
+    width: auto;
+    align-items: center;
+  }
+  .image-size {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
 }
 
 .cart-main {
@@ -44,64 +58,9 @@ h4 {
   transform: scale(1);
 }
 /* header section */
-
-/* RESET RULES & HELPER CLASSES
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-:root {
-  --lightblue: #f6f9fc;
-  --red: #fff;
+#header {
+  background-color: #fff;
 }
-
-a,
-a:hover {
-  color: inherit;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-.container-fluid-max {
-  max-width: 1440px;
-}
-
-/* SCROLL ANIMATIONS
-    –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.scroll .page-header {
-  background: var(--red);
-}
-
-.scroll .hero {
-  transform: scale(0.98);
-}
-
-/* HEADER
-    –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.page-header {
-  transition: background 0.5s ease-in-out;
-}
-
-.page-header .navbar {
-  padding: 0;
-}
-
-.header-space {
-  margin-bottom: 10rem;
-}
-
-.page-header .navbar-toggler {
-  /* the variable is inherited from BS4 built-in variables */
-  border-color: var(--white);
-}
-
-/* MEDIA QUERIES
-    –––––––––––––––––––––––––––––––––––––––––––––––––– */
-/* MEDIUM SCREENS */
-/* @media screen and (max-width: 991px) {
-  .page-header {
-    background: var(--red);
-  }
-} */
 
 /* profile section */
 
@@ -212,3 +171,151 @@ input:disabled {
 .fw-bold {
   font-weight: 600;
 }
+
+.price-single {
+  font-size: 5rem;
+  padding: 2rem;
+  color: rgb(30, 48, 209);
+}
+
+/* dropdown-search */
+
+.dropbtn {
+  background-color: #04aa6d;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {
+  background-color: #3e8e41;
+}
+
+#myInput {
+  box-sizing: border-box;
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  width: 100%;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+#myInput:focus {
+  outline: 3px solid #ddd;
+}
+
+.dropdown {
+  position: relative;
+  /* width: 100%; */
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: block;
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 100%;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+
+.back_btn:hover {
+  transform: scale(1.1);
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: none;
+}
+
+.dropdown a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+
+/* preloading */
+.loader {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-image: url(https://c.tenor.com/tEBoZu1ISJ8AAAAC/spinning-loading.gif);
+  background-position: top center;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: 30%;
+}
+.loading {
+  position: relative;
+}
+.paypal-btn {
+  display: none;
+}
+
+/* Profile Custom */
+.pic-file {
+  position: absolute;
+  top: -10px;
+  left: 42%;
+  width: 150px;
+  height: 150px;
+  /* border: 1px solid #ccc; */
+  border-radius: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.iput_upload {
+  width: 100px;
+  height: 100px;
+  opacity: 0;
+  cursor: pointer;
+  border-radius: 100%;
+  position: relative;
+}
+.profile_user {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  opacity: 1;
+  cursor: pointer;
+  position: relative;
+  border-radius: 100%;
+}
+.profile_user:hover {
+  transform: scale(1.1);
+  transition: transform 0.5s ease;
+}
+.icon-upload {
+  font-size: 30px;
+  position: absolute;
+  opacity: 0;
+  /* opacity: 0; */
+  top: 30px;
+  left: 35px;
+  /* opacity: 0; */
+}
+.icon-upload:hover {
+  opacity: 1;
+}
+.image-profile {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  border-radius: 100%;
+}
+/*  */

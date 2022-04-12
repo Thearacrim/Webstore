@@ -32,7 +32,7 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             [['category_id', 'description', 'price', 'status', 'rate'], 'required'],
-            [['category_id'], 'integer'],
+            [['category_id', 'created_date', 'created_by', 'updated_by'], 'integer'],
             [['image_url'], 'file'],
             // [['image_url'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['rate'], 'number'],
@@ -51,10 +51,37 @@ class Product extends \yii\db\ActiveRecord
             'status' => 'Status',
             'category_id' => 'Category ID',
             'price' => 'Price',
+            'created_by' => 'Created By',
             'image_url' => 'Image Url',
             'description' => 'Description',
             'rate' => 'Rate',
+            'updated_date' => 'Updated Date',
+            'created_date' => 'Created At'
         ];
+    }
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->slug = Yii::$app->formater->slugify($this->slug);
+            if ($this->isNewRecord) {
+                $this->created_date = date('Y-m-d H:i:s');
+                $this->created_by = Yii::$app->user->identity->id;
+            } else {
+                $this->updated_date = date('Y-m-d H:i:s');
+                $this->updated_by = Yii::$app->user->identity->id;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getStatusTemp()
+    {
+        if ($this->status == 1) {
+            return '<span class="badge badge-pill badge-info">Publish</span>';
+        } else {
+            return '<span class="badge badge-pill badge-danger">Inactive</span>';
+        }
     }
 
     public function getImageUrl()

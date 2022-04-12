@@ -1,4 +1,7 @@
-<?php  $base_url = Yii::getAlias("@web");
+<?php $base_url = Yii::getAlias("@web");
+$image_url = str_replace("backend", 'frontend', Yii::$app->request->baseUrl);
+
+use backend\models\Product;
 ?>
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -158,7 +161,7 @@
     <li class="nav-item dropdown no-arrow">
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="mr-2 d-none d-lg-inline text-gray-600 small text-uppercase"><?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name  ?></span>
-        <img class="img-profile rounded-circle" src="<?= Yii::$app->user->identity->image_url ?>">
+        <img class="img-profile rounded-circle" src="<?= $image_url . "/profile/uploads/" . Yii::$app->user->identity->image_url ?>">
       </a>
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

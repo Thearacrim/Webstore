@@ -93,24 +93,16 @@ $base_url = Yii::getAlias("@web");
                 'itemView' => 'product_cart',
                 'itemOptions' => [
                     // 'tag' => false
-                    'class' => "col-md-4 product-item"
+                    'class' => "col-md-4 product-item block"
                 ],
-                'pager' => [
-                    'firstPageLabel' => 'First',
-                    'lastPageLabel'  => 'Last',
-                    'class' => LinkPager::class,
-                ],
+                // 'pager' => [
+                //     'firstPageLabel' => 'First',
+                //     'lastPageLabel'  => 'Last',
+                //     'class' => LinkPager::class,
+                // ],
                 'layout' => '
                     <div class="row">
                         {items}
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            {summary}
-                        </div>
-                        <div class="col-6">
-                            {pager}
-                        </div>
                     </div>
             
                 '
@@ -254,6 +246,20 @@ $script = <<<JS
 
 
     });
+    $(document).ready(function () {
+            $(".block").slice(0, 12).show();
+            if ($(".block:hidden").length != 0) {
+                $("#load_more").show();    
+            }
+            $("#load_more").on("click", function (e) {
+                e.preventDefault();
+                $(".block:hidden").slice(0, 12).slideDown();
+                if ($(".block:hidden").length == 0) {
+                    $("#load_more").text("No More to view")
+                        .fadOut("slow");
+                }
+            });
+        })
 
 JS;
 

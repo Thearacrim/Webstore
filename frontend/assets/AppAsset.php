@@ -14,14 +14,14 @@ class AppAsset extends AssetBundle
     public $css = [
         'template/css/templatemo.css',
         'template/css/custom.css',
-        'template/css/fontawesome.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css',
         'owlcarousel/assets/owl.carousel.min.css',
         'owlcarousel/assets/owl.theme.default.min.css',
-        'https://unpkg.com/aos@2.3.1/dist/aos.css'
+        'https://unpkg.com/aos@2.3.1/dist/aos.css',
+        'template/css/variant.css',
     ];
     public $js = [
         'template/js/jquery-migrate-1.2.1.min.js',
-        'template/js/bootstrap.bundle.min.js',
         'template/js/templatemo.js',
         'template/js/custom.js',
         'template/js/slick.min.js',
@@ -30,7 +30,12 @@ class AppAsset extends AssetBundle
         '//cdn.jsdelivr.net/npm/sweetalert2@11',
         'https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js',
         'https://polyfill.io/v3/polyfill.min.js?features=default',
-        'https://unpkg.com/aos@2.3.1/dist/aos.js'
+        'https://unpkg.com/aos@2.3.1/dist/aos.js',
+        'template/js/scrollfixed.js',
+        'template/typeahead.js/typeahead.bundle.min.js',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js',
+        'https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js',
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

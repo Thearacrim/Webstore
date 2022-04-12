@@ -14,12 +14,13 @@ class ProductSearch extends Product
     /**
      * {@inheritdoc}
      */
-    public $globalSearch;
+    public $globalSearch, $from_date, $to_date;
     public function rules()
     {
         return [
-            [['id', 'category_id'], 'integer'],
-            [['status', 'price', 'image_url', 'globalSearch', 'description'], 'safe'],
+            [['id', 'category_id', 'created_by', 'created_date', 'updated_date'], 'integer'],
+            [['status', 'price', 'image_url', 'description', 'created_date', 'updated_date'], 'safe'],
+            [['globalSearch', 'from_date', 'to_date'], 'safe'],
             [['rate'], 'number'],
         ];
     }
@@ -48,6 +49,8 @@ class ProductSearch extends Product
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['created_date' => SORT_DESC]]
+
         ]);
 
         $this->load($params);
@@ -64,11 +67,18 @@ class ProductSearch extends Product
             'category_id' => $this->category_id,
             'rate' => $this->rate,
         ]);
+        $query->andFilterWhere(['between', 'DATE(created_date)', $this->from_date, $this->to_date])
+            ->andFilterWhere([
+                'OR',
+                ['like', 'status', $this->globalSearch],
+                ['like', 'price', $this->globalSearch],
+                ['like', 'created_date', $this->globalSearch],
 
-        $query->orFilterWhere(['like', 'status', $this->globalSearch])
-            ->orFilterWhere(['like', 'price', $this->globalSearch])
-            ->orFilterWhere(['like', 'image_url', $this->globalSearch])
-            ->orFilterWhere(['like', 'description', $this->globalSearch]);
+            ]);
+        // $query->orFilterWhere(['like', 'status', $this->globalSearch])
+        //     ->orFilterWhere(['like', 'price', $this->globalSearch])
+        //     ->orFilterWhere(['like', '', $this->globalSearch])
+        //     ->orFilterWhere(['like', 'description', $this->globalSearch]);
 
         return $dataProvider;
     }

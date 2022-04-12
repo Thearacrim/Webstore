@@ -17,9 +17,8 @@ AppAsset::register($this);
 ?>
 <?php
 Modal::begin([
-    'title' => 'Login',
     'id' => 'modal',
-    'size' => 'modal-lg',
+    'size' => 'modal-md',
 ]);
 echo "<div id='modalContent'></div>";
 Modal::end();
@@ -39,9 +38,8 @@ Modal::end();
 
 <body data-spy="scroll" data-target="#navbar" data-offset="72" class="position-relative">
     <?php $this->beginBody() ?>
-    <header class="fixed-top page-header">
-        <?= $this->render("top_nav", ['base_url' => $base_url]) ?>
-
+    <?= $this->render("top_nav", ['base_url' => $base_url]) ?>
+    <header id="header">
         <?= $this->render("header", ['base_url' => $base_url]) ?>
     </header>
     <div class="header-space"></div>
@@ -51,6 +49,7 @@ Modal::end();
 
     <?= $this->render("footer", ['base_url' => $base_url]) ?>
 
+
     <?php $this->endBody() ?>
 </body>
 
@@ -58,3 +57,11 @@ Modal::end();
 <?php $this->endPage(); ?>
 
 <?php
+$script = <<< JS
+    // $(document).ready(function() {
+    //     $('#header').scrollToFixed();
+    // });
+    
+
+    JS;
+$this->registerJs($script);

@@ -6,8 +6,9 @@ use yii\bootstrap4\LinkPager;
 use yii\bootstrap4\Modal;
 use yii\helpers\Url;
 use yii\widgets\ListView;
+use sjaakp\loadmore\LoadMorePager;
 
-$this->title = 'About';
+$this->title = 'Store';
 $this->params['breadcrumbs'][] = $this->title;
 
 $base_url = Yii::getAlias("@web");
@@ -86,28 +87,17 @@ $base_url = Yii::getAlias("@web");
                 'itemView' => 'product_cart',
                 'itemOptions' => [
                     // 'tag' => false
-                    'class' => "col-md-4 product-item"
-                ],
-                'pager' => [
-                    'firstPageLabel' => 'First',
-                    'lastPageLabel'  => 'Last',
-                    'class' => LinkPager::class,
+                    'class' => "col-lg-4 col-md-6 col-sm-6 product-item   "
                 ],
                 'layout' => '
                     <div class="row">
                         {items}
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            {summary}
-                        </div>
-                        <div class="col-6">
-                            {pager}
-                        </div>
-                    </div>
-            
                 '
             ]) ?>
+            <div class="text-center">
+                <button id="load_more" class="btn btn-outline-primary rounded-0">Load More</button>
+            </div>
         </div>
         <!-- End Cart -->
     </div>
@@ -259,6 +249,22 @@ $script = <<<JS
 
 
     });
+    
+    $(document).ready(function () {
+            $(".block").slice(0, 6).show();
+            if ($(".block:hidden").length != 0) {
+                $("#load_more").show();    
+            }
+            $("#load_more").on("click", function (e) {
+                e.preventDefault();
+                $(".block:hidden").slice(0, 6).delay(600).slideDown();
+                if ($(".block:hidden").length == 0) {
+                    $("#load_more").text("No More to view")
+                        .fadOut("slow");
+                }
+                
+            });
+        })
 
 JS;
 
