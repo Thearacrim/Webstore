@@ -4,13 +4,14 @@ namespace backend\controllers;
 
 use backend\models\Product;
 use backend\models\ProductSearch;
-use kcfinder\path;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Inflector;
 use yii\web\UploadedFile;
+use yii2tech\csvgrid\CsvGrid;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -53,6 +54,31 @@ class ProductController extends Controller
         ]);
     }
 
+    public function actionExport()
+    {
+
+        $exporter = new CsvGrid([
+            'dataProvider' => new ActiveDataProvider([
+                'query' => Product::find(),
+            ]),
+            'columns' => [
+                [
+                    'attribute' => 'id',
+                    'label' => 'ID'
+                ],
+                [
+                    'attribute' => 'status',
+                    'label' => 'Product Name',
+                ],
+                [
+                    'attribute' => 'price',
+                    'label' => 'Price'
+                ],
+            ],
+        ]);
+        return $exporter->export()->send('products.csv');
+    }
+
     /**
      * Displays a single Product model.
      * @param int $id ID
@@ -87,14 +113,18 @@ class ProductController extends Controller
                     //save file uploaded to db
                     $model->image_url = 'uploads/' . $imagename . '.' . $model->image_url->extension;
                 }
-                $model->save();
-                return $this->redirect(['view', 'id' => $model->id]);
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    print_r($model->getErrors());
+                    exit;
+                }
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->renderAjax('create', [
+        return $this->render('create', [
             'model' => $model,
         ]);
     }

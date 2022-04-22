@@ -8,7 +8,7 @@ $params = array_merge(
     require __DIR__ . '/params.php',
     require __DIR__ . '/params-local.php'
 );
-$baseUrl = str_replace('/backend/web', '', (new Request)->getBaseUrl());
+$baseUrl = str_replace('/web', '', (new Request)->getBaseUrl());
 
 return [
     'id' => 'Yii-website_backend',
@@ -35,8 +35,8 @@ return [
             'class' => 'backend\components\Formater',
         ],
         'formatter' => [
-            'thousandSeparator' => ',',
-            'currencyCode' => 'USD',
+            'thousandSeparator' => '.',
+            'currencyCode' => '$',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

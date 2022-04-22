@@ -15,27 +15,34 @@ use dosamigos\ckeditor\CKEditor;
     <?php $form = ActiveForm::begin([
         'options' => ['enctype' => 'multipart/form-data'],
     ]); ?>
+    <div class="row">
+        <div class="col-lg-8">
+            <?= $form->field($model, 'status')->textInput(['maxlength' => true, 'placeholder' => 'Blog Title'])->label(false) ?>
 
-    <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'category_id')->textInput(['placeholder' => 'Category Id'])->label(false) ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+            <?= $form->field($model, 'price')->textInput(['maxlength' => true, 'placeholder' => 'Price'])->label(false) ?>
 
-    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
-    <br>
-    <?= $form->field($model, 'image_url')->label('image_url', ['class' => 'form-control'])
-        ->fileInput(['class' => 'sr-only']) ?>
+            <?= $form->field($model, 'description')->widget(CKEditor::className(), [
+                'options' => ['rows' => 6],
+                'preset' => 'basic'
+            ])  ?>
 
-    <?= $form->field($model, 'description')->widget(CKEditor::className(), [
-        'options' => ['rows' => 6],
-        'preset' => 'basic'
-    ])  ?>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-upload-image">
+                <div class="preview">
+                    <?= Html::img($model->isNewRecord ? Yii::getAlias("@web/img/placeholder.png") : $model->getThumbUploadUrl('img_url'), ['class' => 'img-thumbnail', 'id' => 'image_upload-preview']) ?>
+                </div>
+                <label for="image_upload"><i class="fas fa-image"></i> Upload Image</label>
+                <?= $form->field($model, 'image_url')->fileInput(['accept' => 'image/*', 'id' => 'image_upload'])->label(false) ?>
+            </div>
 
-    <?= $form->field($model, 'rate')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'type_item')->dropDownList(['1' => 'Women', '2' => 'Man', '3' => 'Sport', '4' => 'Bag', '5' => 'watch', '6' => 'Shores'], ['prompt' => 'Type Item']) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            <?= $form->field($model, 'type_item')->dropDownList(['1' => 'Women', '2' => 'Man', '3' => 'Sport', '4' => 'Bag', '5' => 'watch', '6' => 'Shores'], ['prompt' => 'Type Item', 'placeholder' => 'Type Item'])->label(false) ?>
+            <div class="text-center">
+                <?= Html::submitButton('Save', ['class' => 'btn btn-primary w-50 rounded-0']) ?>
+            </div>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -48,6 +55,14 @@ $script = <<< JS
     $('.isSelect2').select2({
         placeholder: "Select a state",
         width: "100%",
+    });
+    $("#image_upload").change(function(){
+        if(event.target.files.length > 0){
+            var src = URL.createObjectURL(event.target.files[0]);
+            var preview = document.getElementById("image_upload-preview");
+            preview.src = src;
+            preview.style.display = "block";
+        }
     });
     JS;
 $this->registerJs($script);

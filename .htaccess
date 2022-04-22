@@ -5,7 +5,5 @@ Options -Indexes
   
   RewriteCond %{REQUEST_URI} !^public
   RewriteRule ^(.*)$ frontend/web/$1 [L] 
-  RewriteRule ^(.*)$ backend/web/$1 [L] 
-
   
 </IfModule>

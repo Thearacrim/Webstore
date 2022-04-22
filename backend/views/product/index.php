@@ -90,11 +90,15 @@
                                 'attribute' => 'created_date',
                                 'headerOptions' => ['class' => 'text-center'],
                                 'contentOptions' => ['class' => 'text-center'],
-                                // 'contentOptions' => [
-                                //     'style' => 'width:170px;'
-                                // ],
                                 'value' => function ($model) {
-                                    return Yii::$app->formater->timeAgo($model->created_date);
+                                    return Yii::$app->formater->timeAgoKH($model->created_date);
+                                }
+                            ],
+                            [
+                                'attribute' => 'type',
+                                'format' => 'raw',
+                                'value' => function ($model) {
+                                    return $model->getTypeTemp();
                                 }
                             ],
                             // [

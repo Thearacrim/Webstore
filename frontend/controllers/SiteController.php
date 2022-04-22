@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use backend\models\Banner;
 use backend\models\Cart;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
@@ -653,6 +654,13 @@ class SiteController extends Controller
             $profile = Yii::$app->user->identity->username;
             $carts = Cart::find()->where(['user_id' => $userId])->all();
             $customer = Customer::find()->where(['name' => $profile])->one();
+            $product = Yii::$app->db->createCommand("SELECT 
+                product.price as sub_total
+                FROM cart
+                INNER JOIN product ON product.id = cart.product_id
+                WHERE product.id = cart.product_id
+            ")
+                ->queryOne();
 
             if (!$customer) {
                 $customer = new Customer();
@@ -662,17 +670,20 @@ class SiteController extends Controller
             }
             $order = new Order();
             $order->customer_id = $customer->id;
+            $order->sub_total = $product['sub_total'];
+            $order->created_date = date('Y-m-d H:i:s');
+            $order->created_by = Yii::$app->user->identity->id;
             if ($order->save()) {
                 $order_item_values = [];
                 foreach ($carts as $cart) {
-                    array_push($order_item_values, [$order->id, $cart->product_id, $cart->quantity, $cart->product->price, $cart->product->price * $cart->quantity]);
+                    array_push($order_item_values, [$order->id, $cart->product_id, $cart->color_id, $cart->size_id, $cart->quantity, $cart->product->price, $cart->product->price * $cart->quantity]);
                 }
                 $query = Yii::$app->db->createCommand()->batchInsert(
                     'order_item',
-                    ['order_id', 'product_id', 'qty', 'price', 'total'],
+                    ['order_id', 'product_id', 'color', 'size', 'qty', 'price', 'total'],
                     $order_item_values
                 );
-                if ($query->exepcute()) {
+                if ($query->execute()) {
                     Cart::deleteAll(['id' => ArrayHelper::getColumn($carts, 'id')]);
                     return $this->redirect(['site/success']);
                 }

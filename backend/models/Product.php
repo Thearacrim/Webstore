@@ -31,8 +31,8 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'description', 'price', 'status', 'rate'], 'required'],
-            [['category_id', 'created_date', 'created_by', 'updated_by'], 'integer'],
+            [['category_id', 'description', 'price', 'status'], 'required'],
+            [['category_id', 'created_date', 'created_by', 'updated_date'], 'integer'],
             [['image_url'], 'file'],
             // [['image_url'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['rate'], 'number'],
@@ -48,10 +48,11 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'status' => 'Status',
+            'status' => 'Title',
             'category_id' => 'Category ID',
             'price' => 'Price',
             'created_by' => 'Created By',
+            'type_item' => 'Type Item',
             'image_url' => 'Image Url',
             'description' => 'Description',
             'rate' => 'Rate',
@@ -62,7 +63,7 @@ class Product extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $this->slug = Yii::$app->formater->slugify($this->slug);
+            // $this->slug = Yii::$app->formater->slugify($this->slug);
             if ($this->isNewRecord) {
                 $this->created_date = date('Y-m-d H:i:s');
                 $this->created_by = Yii::$app->user->identity->id;
@@ -75,12 +76,18 @@ class Product extends \yii\db\ActiveRecord
             return false;
         }
     }
-    public function getStatusTemp()
+    public function getTypeTemp()
     {
-        if ($this->status == 1) {
-            return '<span class="badge badge-pill badge-info">Publish</span>';
-        } else {
-            return '<span class="badge badge-pill badge-danger">Inactive</span>';
+        if ($this->type_item == 1) {
+            return '<span class="badge badge-pill badge-info">Women</span>';
+        } else if ($this->type_item == 2) {
+            return '<span class="badge badge-pill badge-danger">Man</span>';
+        } else if ($this->type_item == 3) {
+            return '<span class="badge badge-pill badge-success">Sport</span>';
+        } else if ($this->type_item == 4) {
+            return '<span class="badge badge-pill badge-secondary">Bag</span>';
+        } else if ($this->type_item == 5) {
+            return '<span class="badge badge-pill badge-warning">Watch</span>';
         }
     }
 
