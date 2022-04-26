@@ -19,9 +19,6 @@ $base_url = Yii::getAlias("@web");
                 <li>
                     <a class="btn btn-success text-white mt-2" href="<?= Url::to('store-single?id=' . $model->id) ?>"><i class="far fa-eye"></i></a>
                 </li>
-                <!-- <li>
-                    <a class="btn btn-success text-white btn-add-to-cart mt-2 cart-login" value="<?= Url::to(['/site/login']) ?>" href="#"><i class="fas fa-cart-plus"></i></a>
-                </li> -->
             </ul>
         </div>
     </div>

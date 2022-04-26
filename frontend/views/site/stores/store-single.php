@@ -6,11 +6,17 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ListView;
 
-$this->title = 'Single-item';
+$this->title = $products->status;
 $this->params['breadcrumbs'][] = $this->title;
 
 $base_url = Yii::getAlias("@web");
 
+?>
+<?php
+Yii::$app->params['og_title']['content'] = $products->status;
+Yii::$app->params['og_description']['content'] = $products->description;
+Yii::$app->params['og_url']['content'] = '/new/url';
+Yii::$app->params['og_image']['content'] = $products->image_url;
 ?>
 <!-- Open Content -->
 <div class="loader">

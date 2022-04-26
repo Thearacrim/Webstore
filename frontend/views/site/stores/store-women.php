@@ -56,9 +56,9 @@ $base_url = Yii::getAlias("@web");
                         <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
                     <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-bag']) ?>">Bag</a></li>
-                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-man']) ?>">Sweather</a></li>
-                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-man']) ?>">Sunglass</a></li>
+                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-watch']) ?>">Watch</a></li>
+                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-shoes']) ?>">Shoes</a></li>
+                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-glasses']) ?>">Sunglass</a></li>
                     </ul>
         </div>
         <!-- cart-section -->
@@ -107,6 +107,9 @@ $base_url = Yii::getAlias("@web");
             
                 '
             ]) ?>
+            <div class="text-center">
+                <button id="load_more" class="btn btn-outline-primary rounded-0">Load More</button>
+            </div>
         </div>
         <!-- End Cart -->
     </div>

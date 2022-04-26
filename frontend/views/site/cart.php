@@ -11,6 +11,12 @@ $base_url = Yii::getAlias("@web");
 // }
 
 ?>
+<?php
+Yii::$app->params['og_title']['content'] = 'Set title';
+Yii::$app->params['og_description']['content'] = 'custom desc';
+Yii::$app->params['og_url']['content'] = '/new/url';
+Yii::$app->params['og_image']['content'] = 'image.jpg';
+?>
 <div class="container">
     <div class="cart-main">
         <div class="row">

@@ -8,7 +8,16 @@ use yii\web\Request;
 $this->title = 'My Yii Application';
 $base_url = Yii::getAlias("@web");
 ?>
+<?php
+Yii::$app->params['og_title']['content'] = 'Set title';
+Yii::$app->params['og_description']['content'] = 'custom desc';
+Yii::$app->params['og_url']['content'] = '/new/url';
+Yii::$app->params['og_image']['content'] = 'image.jpg';
+
+?>
 <?php (new Request)->getBaseUrl();
+// echo "<pre>";
+// print_r($shoes);
 ?>
 <!-- Start Categories of The Month -->
 <section class="container py-5">
@@ -23,19 +32,19 @@ $base_url = Yii::getAlias("@web");
     </div>
     <div class="row">
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="<?= Url::to(['site/store']) ?>"><img src="<?= $base_url ?>/template/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
+            <a href="<?= Url::to(['site/store-watch']) ?>"><img src="<?= $base_url ?>/<?= $watch->image_url ?>" class="rounded-circle img-fluid border categories_img"></a>
             <h5 class="text-center mt-3 mb-3">Watches</h5>
             <p class="text-center"><a href="<?= Url::to(['site/store-watch']) ?>" class=" btn btn-success">Go Shop</a></p>
         </div>
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="<?= Url::to(['site/store']) ?>"><img src="<?= $base_url ?>/template/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
+            <a href="<?= Url::to(['site/store-shoes']) ?>"><img src="<?= $base_url ?>/<?= $shoes->image_url ?>" class="rounded-circle img-fluid border categories_img"></a>
             <h2 class="h5 text-center mt-3 mb-3">Shoes</h2>
-            <p class="text-center"><a href="<?= Url::to(['site/store']) ?>" class=" btn btn-success">Go Shop</a></p>
+            <p class="text-center"><a href="<?= Url::to(['site/store-shoes']) ?>" class=" btn btn-success">Go Shop</a></p>
         </div>
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="<?= Url::to(['site/store']) ?>"><img src="<?= $base_url ?>/template/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
+            <a href="<?= Url::to(['site/store-glasses']) ?>"><img src="<?= $base_url ?>/<?= $glasses->image_url ?>" class="rounded-circle img-fluid border categories_img"></a>
             <h2 class="h5 text-center mt-3 mb-3">Accessories</h2>
-            <p class="text-center"><a href="<?= Url::to(['site/store']) ?>" class="btn btn-success">Go Shop</a></p>
+            <p class="text-center"><a href="<?= Url::to(['site/store-glasses']) ?>" class="btn btn-success">Go Shop</a></p>
         </div>
     </div>
 </section>

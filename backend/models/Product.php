@@ -88,11 +88,21 @@ class Product extends \yii\db\ActiveRecord
             return '<span class="badge badge-pill badge-secondary">Bag</span>';
         } else if ($this->type_item == 5) {
             return '<span class="badge badge-pill badge-warning">Watch</span>';
+        } else {
+            return '<span class="badge badge-pill badge-primary">Watch</span>';
         }
     }
 
     public function getImageUrl()
     {
         return str_replace("backend", 'frontend', Yii::$app->request->baseUrl) . "/" . $this->image_url;
+    }
+    public function getThumbUploadUrl()
+    {
+        $base_url_frontend = str_replace("backend", 'frontend', Yii::$app->request->baseUrl);
+        if (!$this->image_url) {
+            return $base_url_frontend . '/uploads/placeholder.jpg';
+        }
+        return $base_url_frontend . '/' . $this->image_url;
     }
 }

@@ -12,7 +12,7 @@ use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 
 $base_url = Yii::getAlias("@web");
-
+$view;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -22,6 +22,7 @@ AppAsset::register($this);
 <head>
   <link rel="icon" href="<?= Yii::getAlias('@web') ?>/template/img/favicon.ico" />
   <meta charset="<?= Yii::$app->charset ?>">
+  <?php $this->head() ?>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <?php $this->registerCsrfMetaTags() ?>
   <title><?= Html::encode($this->title) ?></title>

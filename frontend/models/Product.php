@@ -50,7 +50,6 @@ class Product extends \yii\db\ActiveRecord
             'price' => 'Price',
             'image_url' => 'Image Url',
             'description' => 'Description',
-            'rate' => 'Rate',
         ];
     }
 }

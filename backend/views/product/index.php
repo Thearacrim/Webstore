@@ -71,14 +71,6 @@
                                 ]
                             ],
                             'status',
-                            // 'category_id',
-                            // [
-                            //     'attribute' => 'category_id',
-                            //     'label' => 'CategoryName',
-                            //     'contentOptions' => [
-                            //         'style' => 'width:60px;'
-                            //     ]
-                            // ],
                             [
                                 'attribute' => 'price',
                                 'format' => ['currency'],
@@ -101,25 +93,6 @@
                                     return $model->getTypeTemp();
                                 }
                             ],
-                            // [
-                            //     'attribute' => 'image_url',
-                            //     'label' => 'Image',
-                            //     'content' => function ($model) {
-                            //         return Html::img($model->imageUrl, ['style' => 'width:30px; object-fit:contain;']);
-                            //     },
-                            //     'contentOptions' => [
-                            //         'style' => 'width:10px; height:10px'
-                            //     ]
-
-                            // ],
-                            // [
-                            //     'attribute' => 'description',
-                            //     'format' => 'html',
-                            //     'options' => ['style' => 'font-size:3rem'],
-                            //     'contentOptions' => ['class' => 'text-center text-truncate'],
-                            //     'headerOptions' => ['class' => 'text-center text-truncate'],
-                            // ],
-                            //'rate',
                             [
                                 'class' => ActionColumn::class,
                                 'urlCreator' => function ($action, $model, $key, $index, $column) {

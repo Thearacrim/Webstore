@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <div class="row">
 
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'placeholder' => 'Title'])->label(false) ?>
 
             <?= $form->field($model, 'sort_description')->textInput(['maxlength' => true, 'placeholder' => 'Sort Description'])->label(false) ?>
@@ -25,17 +25,17 @@ use yii\widgets\ActiveForm;
 
             <div class="form-upload-image">
                 <div class="preview">
-                    <?= Html::img($model->isNewRecord ? Yii::getAlias("@web/img/placeholder.png") : $model->getThumbUploadUrl('img_url'), ['class' => 'img-thumbnail', 'id' => 'image_upload-preview']) ?>
+                    <?= Html::img($model->isNewRecord ? Yii::getAlias("@web/uploads/orionthemes-placeholder-image-1.png") : $model->getThumbUploadUrl('image_banner'), ['class' => 'img-thumbnail', 'id' => 'image_upload-preview']) ?>
                 </div>
                 <label for="image_upload"><i class="fas fa-image"></i> Upload Image</label>
-                <?= $form->field($model, 'image_banner')->fileInput(['accept' => 'image/*', 'id' => 'image_upload'])->label(false) ?>
+                <?= $form->field($model, 'image')->fileInput(['accept' => 'image/*', 'id' => 'image_upload'])->label(false) ?>
             </div>
 
             <div class="form-group">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-8">
 
         </div>
 

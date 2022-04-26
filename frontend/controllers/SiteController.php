@@ -91,9 +91,15 @@ class SiteController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->all(),
         ]);
-
+        // $categories_product = Product::find()->where(['type_item' => '5', 'type_item' => '6', 'type_item' => '3'])->one();
+        $shoes = Product::find()->where(['type_item' => '6'])->one();
+        $watch = Product::find()->where(['type_item' => '5'])->one();
+        $glasses = Product::find()->where(['type_item' => '3'])->one();
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'shoes' => $shoes,
+            'glasses' => $glasses,
+            'watch' => $watch
         ]);
     }
 
@@ -244,18 +250,6 @@ class SiteController extends Controller
                     ")
                         ->bindParam("userId", $current_user)
                         ->queryScalar();
-
-
-                    // $product_save_later = Yii::$app->db->createCommand(
-                    //     "SELECT * FROM `product`
-                    //     "
-                    // )
-                    //     ->queryAll();
-                    // $product_save_later = Product::find()->all();
-
-                    // // echo '<pre>';
-                    // return json_encode($result);
-                    // // exit;
                     if (!$save_later) {
                         $save_later = new SaveLater();
                         $save_later->product_id = $save_id;
@@ -372,15 +366,14 @@ class SiteController extends Controller
 
             return json_encode(['success' => true]);
         }
+        $model = Product::find()->one();
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find(),
-            // 'pagination' => [
-            //     'pageSize' => 12
-            // ]
         ]);
 
         return $this->render('stores/store', [
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
 
         throw new NotFoundHttpException('The requested page does not exist.');
@@ -388,32 +381,32 @@ class SiteController extends Controller
 
     public function actionStoreWatch()
     {
-        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
-            if (Yii::$app->user->isGuest) {
-                return $this->redirect(['site/login']);
-            }
+        // if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
+        //     if (Yii::$app->user->isGuest) {
+        //         return $this->redirect(['site/login']);
+        //     }
 
-            $id = $this->request->post('id');
-            $userId = Yii::$app->user->id;
-            $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId])->one();
-            if ($cart) {
-                $cart->quantity++;
-            } else {
-                $cart = new Cart();
-                $cart->user_id = $userId;
-                $cart->product_id = $id;
-                $cart->quantity = 1;
-            }
-            if ($cart->save()) {
-                $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
-                $totalCart = $totalCart->quantity;
-                return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
-            } else {
-                return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
-            }
+        //     $id = $this->request->post('id');
+        //     $userId = Yii::$app->user->id;
+        //     $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId])->one();
+        //     if ($cart) {
+        //         $cart->quantity++;
+        //     } else {
+        //         $cart = new Cart();
+        //         $cart->user_id = $userId;
+        //         $cart->product_id = $id;
+        //         $cart->quantity = 1;
+        //     }
+        //     if ($cart->save()) {
+        //         $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
+        //         $totalCart = $totalCart->quantity;
+        //         return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
+        //     } else {
+        //         return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
+        //     }
 
-            return json_encode(['success' => true]);
-        }
+        //     return json_encode(['success' => true]);
+        // }
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->where(['type_item' => 5]),
             'pagination' => [
@@ -507,11 +500,36 @@ class SiteController extends Controller
             ]
         ]);
 
-        return $this->render('stores/store-man', [
+        return $this->render('stores/store-women', [
             'dataProvider' => $dataProvider,
         ]);
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionStoreGlasses()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find()->where(['type_item' => 3]),
+            'pagination' => [
+                'pageSize' => 9
+            ]
+        ]);
+        return $this->render('stores/store-glasses', [
+            'dataProvider' => $dataProvider
+        ]);
+    }
+    public function actionStoreShoes()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find()->where(['type_item' => 6]),
+            'pagination' => [
+                'pageSize' => 9
+            ]
+        ]);
+        return $this->render('stores/store-shoes', [
+            'dataProvider' => $dataProvider
+        ]);
     }
 
     public function actionStoreSingle($id)

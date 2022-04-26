@@ -32,13 +32,13 @@ use dosamigos\ckeditor\CKEditor;
         <div class="col-lg-4">
             <div class="form-upload-image">
                 <div class="preview">
-                    <?= Html::img($model->isNewRecord ? Yii::getAlias("@web/img/placeholder.png") : $model->getThumbUploadUrl('img_url'), ['class' => 'img-thumbnail', 'id' => 'image_upload-preview']) ?>
+                    <?= Html::img($model->isNewRecord ? Yii::getAlias("@web/uploads/orionthemes-placeholder-image-1.png") : $model->getThumbUploadUrl('image_banner'), ['class' => 'img-thumbnail', 'id' => 'image_upload-preview']) ?>
                 </div>
                 <label for="image_upload"><i class="fas fa-image"></i> Upload Image</label>
                 <?= $form->field($model, 'image_url')->fileInput(['accept' => 'image/*', 'id' => 'image_upload'])->label(false) ?>
             </div>
 
-            <?= $form->field($model, 'type_item')->dropDownList(['1' => 'Women', '2' => 'Man', '3' => 'Sport', '4' => 'Bag', '5' => 'watch', '6' => 'Shores'], ['prompt' => 'Type Item', 'placeholder' => 'Type Item'])->label(false) ?>
+            <?= $form->field($model, 'type_item')->dropDownList(['1' => 'Women', '2' => 'Man', '3' => 'Glasses', '4' => 'Bag', '5' => 'watch', '6' => 'Shores'], ['placeholder' => 'Type Item'])->label(false) ?>
             <div class="text-center">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-primary w-50 rounded-0']) ?>
             </div>

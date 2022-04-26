@@ -35,7 +35,8 @@ class AppAsset extends AssetBundle
         'template/typeahead.js/typeahead.bundle.min.js',
         'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js',
         'https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js',
-        'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js'
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js',
+        'https://polyfill.io/v3/polyfill.min.js?features=default'
     ];
     public $depends = [
         'yii\web\YiiAsset',

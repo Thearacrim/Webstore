@@ -3,6 +3,7 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
+use backend\models\Product;
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap4\Breadcrumbs;
@@ -12,6 +13,7 @@ use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 
 $base_url = Yii::getAlias("@web");
+$meta = Product::find()->where(['id' => 1]);
 
 AppAsset::register($this);
 ?>
@@ -33,6 +35,12 @@ Modal::end();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <?php
+    $this->registerMetaTag(Yii::$app->params['og_title'], 'og_title');
+    $this->registerMetaTag(Yii::$app->params['og_description'], 'og_description');
+    $this->registerMetaTag(Yii::$app->params['og_url'], 'og_url');
+    $this->registerMetaTag(Yii::$app->params['og_image'], 'og_image');
+    ?>
     <?php $this->head() ?>
 </head>
 
@@ -58,10 +66,6 @@ Modal::end();
 
 <?php
 $script = <<< JS
-    // $(document).ready(function() {
-    //     $('#header').scrollToFixed();
-    // });
-    
 
     JS;
 $this->registerJs($script);

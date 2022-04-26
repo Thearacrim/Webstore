@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <h5 class="card-title"><?= $banner->title ?></h5>
                                 <p class="card-text"><?= $banner->sort_description ?></p>
                                 <p class="card-text"><?= $banner->description ?></p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                             </div>
                         </div>
                     </div>

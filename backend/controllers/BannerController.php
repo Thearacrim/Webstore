@@ -74,18 +74,23 @@ class BannerController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $imagename = Inflector::slug($model->title) . '-' . time();
-                $model->image_banner = UploadedFile::getInstance($model, 'image_banner');
-                $upload_path = Yii::getAlias("@frontend/web/uploads/");
-                if (!empty($model->image_banner)) {
+                $model->image = UploadedFile::getInstance($model, 'image');
+                // print_r($model->image);
+                // exit;
+                $upload_path = Yii::getAlias("@frontend/web/");
+                if (!empty($model->image)) {
                     if (!is_dir($upload_path)) {
                         mkdir($upload_path, 0777, true);
                     }
-                    $model->image_banner->saveAs($upload_path . $imagename . '.' . $model->image_banner->extension);
+                    $filename = 'uploads/' . $imagename . '.' . $model->image->extension;
+                    $model->image->saveAs($upload_path . $filename);
                     //save file uploaded to db
-                    $model->image_banner = 'uploads/' . $imagename . '.' . $model->image_banner->extension;
+                    $model->image_banner = $filename;
                 }
-
+                // echo $model->image_banner;
+                // exit;
                 if ($model->save()) {
+                    // exit;
                     return $this->redirect(['view', 'id' => $model->id]);
                 } else {
                     print_r($model->getErrors());
@@ -113,8 +118,27 @@ class BannerController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post())) {
+                $imagename = Inflector::slug($model->title) . '-' . time();
+                $model->image = UploadedFile::getInstance($model, 'image');
+                $upload_path = Yii::getAlias("@frontend/web/uploads/");
+                if (!empty($model->image)) {
+                    if (!is_dir($upload_path)) {
+                        mkdir($upload_path, 0777, true);
+                    }
+                    $model->image->saveAs($upload_path . $imagename . '.' . $model->image->extension);
+                    //save file uploaded to db
+                    $model->image_banner = 'uploads/' . $imagename . '.' . $model->image->extension;
+                }
+                if ($model->save()) {
+                    // exit;
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    print_r($model->getErrors());
+                    exit;
+                }
+            }
         }
 
         return $this->render('update', [

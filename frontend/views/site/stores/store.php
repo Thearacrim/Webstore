@@ -14,6 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 $base_url = Yii::getAlias("@web");
 
 ?>
+<?php
+Yii::$app->params['og_title']['content'] = $model->status;
+Yii::$app->params['og_description']['content'] = $model->description;
+Yii::$app->params['og_url']['content'] = '/new/url';
+Yii::$app->params['og_image']['content'] = $model->image_url;
+?>
 
 <!-- Start Content -->
 <div class="container py-5">

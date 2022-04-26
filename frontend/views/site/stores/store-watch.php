@@ -16,6 +16,16 @@ $base_url = Yii::getAlias("@web");
 <!-- Start Content -->
 <div class="container py-5">
     <div class="row">
+        <?php
+        if (Yii::$app->session->hasFlash('success')) : ?>
+            <div class="alert alert-success" role="alert">
+                <?= Yii::$app->session->getFlash('success') ?>
+            </div>
+        <?php elseif (Yii::$app->session->hasFlash('error')) : ?>
+            <div class="alert alert-danger" role="alert">
+                <?= Yii::$app->session->getFlash('error') ?>
+            </div>
+        <?php endif; ?>
 
         <div class="col-lg-3">
             <h1 class="h2 pb-4">Categories</h1>
@@ -46,12 +56,10 @@ $base_url = Yii::getAlias("@web");
                         <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
                     <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-bag']) ?>">Bag</a></li>
-                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-man']) ?>">Sweather</a></li>
-                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-man']) ?>">Sunglass</a></li>
+                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-watch']) ?>">Watch</a></li>
+                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-shoes']) ?>">Shoes</a></li>
+                        <li><a class="text-decoration-none" href="<?= Url::to(['site/store-glasses']) ?>">Sunglass</a></li>
                     </ul>
-                </li>
-            </ul>
         </div>
         <!-- cart-section -->
         <div class="col-lg-9">
@@ -59,7 +67,7 @@ $base_url = Yii::getAlias("@web");
                 <div class="col-md-6">
                     <ul class="list-inline shop-top-menu pb-3 pt-1">
                         <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+                            <a class="h3 text-dark text-decoration-none mr-3" href="<?= Url::to(['site/add-cart']) ?>">All</a>
                         </li>
                         <li class="list-inline-item">
                             <a class="h3 text-dark text-decoration-none mr-3" href="<?= Url::to(['site/store-man']) ?>">Men's</a>
@@ -85,28 +93,23 @@ $base_url = Yii::getAlias("@web");
                 'itemView' => 'product_cart',
                 'itemOptions' => [
                     // 'tag' => false
-                    'class' => "col-md-4 product-item"
+                    'class' => "col-md-4 product-item block"
                 ],
-                'pager' => [
-                    'firstPageLabel' => 'First',
-                    'lastPageLabel'  => 'Last',
-                    'class' => LinkPager::class,
-                ],
+                // 'pager' => [
+                //     'firstPageLabel' => 'First',
+                //     'lastPageLabel'  => 'Last',
+                //     'class' => LinkPager::class,
+                // ],
                 'layout' => '
                     <div class="row">
                         {items}
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            {summary}
-                        </div>
-                        <div class="col-6">
-                            {pager}
-                        </div>
-                    </div>
             
                 '
             ]) ?>
+            <div class="text-center">
+                <button id="load_more" class="btn btn-outline-primary rounded-0">Load More</button>
+            </div>
         </div>
         <!-- End Cart -->
     </div>
@@ -246,6 +249,20 @@ $script = <<<JS
 
 
     });
+    $(document).ready(function () {
+            $(".block").slice(0, 12).show();
+            if ($(".block:hidden").length != 0) {
+                $("#load_more").show();    
+            }
+            $("#load_more").on("click", function (e) {
+                e.preventDefault();
+                $(".block:hidden").slice(0, 12).slideDown();
+                if ($(".block:hidden").length == 0) {
+                    $("#load_more").text("No More to view")
+                        .fadOut("slow");
+                }
+            });
+        })
 
 JS;
 

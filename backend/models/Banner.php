@@ -15,6 +15,7 @@ use Yii;
  */
 class Banner extends \yii\db\ActiveRecord
 {
+    public $image;
     /**
      * {@inheritdoc}
      */
@@ -29,9 +30,20 @@ class Banner extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            ['image', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => ['insert', 'update']],
             [['title', 'sort_description'], 'string', 'max' => 100],
-            [['description', 'image_banner'], 'string', 'max' => 255],
+            [['description'], 'string', 'max' => 255],
+            [['image_banner'], 'string']
         ];
+    }
+
+    public function getThumbUploadUrl()
+    {
+        $base_url_frontend = str_replace("backend", 'frontend', Yii::$app->request->baseUrl);
+        if (!$this->image_banner) {
+            return $base_url_frontend . '/uploads/placeholder.jpg';
+        }
+        return $base_url_frontend . '/' . $this->image_banner;
     }
 
     /**

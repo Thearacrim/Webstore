@@ -1,6 +1,8 @@
 <?php
+$base_url = Yii::getAlias('@web');
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -16,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
+        <a class='btn btn-primary' href="<?= Url::to(['/product']) ?>">Home</a>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -31,11 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'status',
+            'type_item',
             'category_id',
             'price',
             'image_url:url',
             'description',
-            'rate',
         ],
     ]) ?>
 
