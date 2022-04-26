@@ -31,7 +31,7 @@ if (\Yii::$app->user->isGuest) {
       Zay
     </a>
 
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="templatemo_main_nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -117,13 +117,3 @@ if (\Yii::$app->user->isGuest) {
   </div>
 </nav>
 <!-- Close Header -->
-<?php
-
-$script = <<< JS
-          $(document).on("click",".trigggerModal",function(){
-                  $("#modal").modal("show").find("#modalContent").load($(this).attr("value"));
-                  });
-          JS;
-$this->registerJs($script);
-
-?>

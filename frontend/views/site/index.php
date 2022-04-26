@@ -31,18 +31,24 @@ Yii::$app->params['og_image']['content'] = 'image.jpg';
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="<?= Url::to(['site/store-watch']) ?>"><img src="<?= $base_url ?>/<?= $watch->image_url ?>" class="rounded-circle img-fluid border categories_img"></a>
+        <div class="col-lg-4 col-md-6 col-sm-12 p-5 mt-3">
+            <div class="text-center">
+                <a href="<?= Url::to(['site/store-watch']) ?>"><img src="<?= $base_url ?>/<?= $watch->image_url ?>" class="rounded-circle border categories_img"></a>
+            </div>
             <h5 class="text-center mt-3 mb-3">Watches</h5>
             <p class="text-center"><a href="<?= Url::to(['site/store-watch']) ?>" class=" btn btn-success">Go Shop</a></p>
         </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="<?= Url::to(['site/store-shoes']) ?>"><img src="<?= $base_url ?>/<?= $shoes->image_url ?>" class="rounded-circle img-fluid border categories_img"></a>
+        <div class="col-lg-4 col-md-6 col-sm-12 p-5 mt-3">
+            <div class="text-center">
+                <a href="<?= Url::to(['site/store-shoes']) ?>"><img src="<?= $base_url ?>/<?= $shoes->image_url ?>" class="rounded-circle border categories_img"></a>
+            </div>
             <h2 class="h5 text-center mt-3 mb-3">Shoes</h2>
             <p class="text-center"><a href="<?= Url::to(['site/store-shoes']) ?>" class=" btn btn-success">Go Shop</a></p>
         </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="<?= Url::to(['site/store-glasses']) ?>"><img src="<?= $base_url ?>/<?= $glasses->image_url ?>" class="rounded-circle img-fluid border categories_img"></a>
+        <div class="col-lg-4 col-md-6 col-sm-12 p-5 mt-3">
+            <div class="text-center">
+                <a href="<?= Url::to(['site/store-glasses']) ?>"><img src="<?= $base_url ?>/<?= $glasses->image_url ?>" class="rounded-circle border categories_img"></a>
+            </div>
             <h2 class="h5 text-center mt-3 mb-3">Accessories</h2>
             <p class="text-center"><a href="<?= Url::to(['site/store-glasses']) ?>" class="btn btn-success">Go Shop</a></p>
         </div>

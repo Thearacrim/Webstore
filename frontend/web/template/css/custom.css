@@ -17,7 +17,7 @@ h4 {
 .image-size {
   width: 100%;
   height: 320px;
-  object-fit: contain;
+  object-fit: cover;
 }
 @media screen and (max-width: 575px) {
   .product-item {
@@ -320,10 +320,9 @@ input:disabled {
 }
 /*  */
 .categories_img {
+  width: 260px;
+  height: 260px;
   object-fit: cover;
-  background-size: cover;
-  width: 250px;
-  height: 250px;
 }
 #map {
   height: 100%;

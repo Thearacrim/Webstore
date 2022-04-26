@@ -27,26 +27,32 @@ $this->title = 'Contact';
     <div id="map"></div>
     <!-- Replace the value of the key parameter with your own API key. -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzv0A6cXOv-44v938KjWsj4hCqSbVGQA4&callback=initMap&v=weekly" defer></script>
-
+    <h1 class="text-center pt-5 pb-5">Messages</h1>
     <!-- Start Contact -->
     <div class="container">
-        <div class="row justify-content-center">
-            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
-            <div class="input-group">
-                <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'email') ?>
+        <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
+                    </div>
+                    <div class="col-lg-6">
+                        <?= $form->field($model, 'email') ?>
+                    </div>
+                </div>
+                <?= $form->field($model, 'subject') ?>
+                <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
             </div>
-            <?= $form->field($model, 'subject') ?>
-
-            <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
-
-            <div class="form-group">
-                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+            <div class="col-lg-6">
             </div>
-
-            <?php ActiveForm::end(); ?>
         </div>
+
+        <div class="form-group">
+            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
     </div>
     <!-- End Contact -->
 
