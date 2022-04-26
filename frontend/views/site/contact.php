@@ -43,6 +43,8 @@ $this->title = 'Contact';
                 </div>
                 <?= $form->field($model, 'subject') ?>
                 <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
+                <script src="https://www.google.com/recaptcha/api.js"></script>
+                <div class="g-recaptcha pt-5 pb-5" data-sitekey="6Ld77J8fAAAAAPoq_6VzMGlm-bxYkRtP2k2Q2V5s"></div>
             </div>
             <div class="col-lg-6">
             </div>
@@ -62,7 +64,17 @@ $this->title = 'Contact';
 <?php
 
 $script = <<< JS
-
+// function onClick(e) {
+//         e.preventDefault();
+//         grecaptcha.ready(function() {
+//           grecaptcha.execute('6Ld77J8fAAAAAPoq_6VzMGlm-bxYkRtP2k2Q2V5s', {action: 'submit'}).then(function(token) {
+//               // Add your logic to submit to your backend server here.
+//           });
+//         });
+//       }
+function onSubmit(token) {
+     document.getElementById("demo-form").submit();
+   }
 JS;
 $this->registerJs($script);
 
