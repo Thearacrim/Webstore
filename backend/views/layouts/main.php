@@ -22,7 +22,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php $this->registerCsrfMetaTags() ?>
-    <link rel="icon" href="<?= $url_web ?>/template/img/favicon.ico" />
+    <link rel="icon" href="<?= $url_web ?>/template/img/output-onlinepngtools1.png" />
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
@@ -101,7 +101,6 @@ $script = <<<JS
             $.post(val);
         }
     };
-
 JS;
 $this->registerJs($script);
 ?>

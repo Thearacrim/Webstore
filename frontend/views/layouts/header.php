@@ -56,23 +56,23 @@ if (\Yii::$app->user->isGuest) {
         <a class="nav-icon d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
           <i class="fa fa-fw fa-search text-dark mr-2"></i>
         </a>
-        <!-- <?php
-              if (Yii::$app->user->isGuest) {
-              ?>
+        <?php
+        if (Yii::$app->user->isGuest) {
+        ?>
           <a class="nav-icon position-relative text-decoration-none trigggerModal" value="<?= Url::to(['/site/login']) ?>" href="#">
             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
             <span id="cart-quantity" class="position-absolute top-0 left-100 translate-middle badge rounded-pill badge badge-danger"><?= $totalCart ?></span>
           </a>
         <?php
-              } else {
+        } else {
         ?>
           <a class="nav-icon position-relative text-decoration-none" href="<?= Url::to(['site/cart']) ?>">
             <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
             <span id="cart-quantity" class="position-absolute top-0 left-100 translate-middle badge rounded-pill badge badge-danger"><?= $totalCart ?></span>
           </a>
         <?php
-              }
-        ?> -->
+        }
+        ?>
         <?php
         if (Yii::$app->user->isGuest) {
         ?>

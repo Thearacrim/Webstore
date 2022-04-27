@@ -17,14 +17,6 @@ $meta = Product::find()->where(['id' => 1]);
 
 AppAsset::register($this);
 ?>
-<?php
-Modal::begin([
-    'id' => 'modal',
-    'size' => 'modal-md',
-]);
-echo "<div id='modalContent'></div>";
-Modal::end();
-?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>" class="h-100">
@@ -43,6 +35,14 @@ Modal::end();
     ?>
     <?php $this->head() ?>
 </head>
+<?php
+Modal::begin([
+    'id' => 'modal',
+    'size' => 'modal-md',
+]);
+echo "<div id='modalContent'></div>";
+Modal::end();
+?>
 
 <body data-spy="scroll" data-target="#navbar" data-offset="72" class="position-relative">
     <?php $this->beginBody() ?>

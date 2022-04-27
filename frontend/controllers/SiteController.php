@@ -91,7 +91,6 @@ class SiteController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->all(),
         ]);
-        // $categories_product = Product::find()->where(['type_item' => '5', 'type_item' => '6', 'type_item' => '3'])->one();
         $shoes = Product::find()->where(['type_item' => '6'])->one();
         $watch = Product::find()->where(['type_item' => '5'])->one();
         $glasses = Product::find()->where(['type_item' => '3'])->one();

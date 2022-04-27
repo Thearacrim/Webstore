@@ -23,8 +23,10 @@ $this->title = 'Contact';
             </p>
         </div>
     </div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d31052.531461834078!2d103.8803606!3d13.3772139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2skh!4v1650957310442!5m2!1sen!2skh" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div id="map">
 
-    <div id="map"></div>
+    </div>
     <!-- Replace the value of the key parameter with your own API key. -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzv0A6cXOv-44v938KjWsj4hCqSbVGQA4&callback=initMap&v=weekly" defer></script>
     <h1 class="text-center pt-5 pb-5">Messages</h1>
@@ -64,14 +66,6 @@ $this->title = 'Contact';
 <?php
 
 $script = <<< JS
-// function onClick(e) {
-//         e.preventDefault();
-//         grecaptcha.ready(function() {
-//           grecaptcha.execute('6Ld77J8fAAAAAPoq_6VzMGlm-bxYkRtP2k2Q2V5s', {action: 'submit'}).then(function(token) {
-//               // Add your logic to submit to your backend server here.
-//           });
-//         });
-//       }
 function onSubmit(token) {
      document.getElementById("demo-form").submit();
    }

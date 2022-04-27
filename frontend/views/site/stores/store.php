@@ -92,8 +92,7 @@ Yii::$app->params['og_image']['content'] = $model->image_url;
                 'dataProvider' => $dataProvider,
                 'itemView' => 'product_cart',
                 'itemOptions' => [
-                    // 'tag' => false
-                    'class' => "col-lg-4 col-md-6 col-sm-6 product-item   "
+                    'class' => "col-lg-4 product-item block"
                 ],
                 'layout' => '
                     <div class="row">
@@ -227,9 +226,6 @@ Yii::$app->params['og_image']['content'] = $model->image_url;
 <?php
 $add_cart_url = Url::to(['site/add-cart']);
 $script = <<<JS
-        // $(document).on("click",".trigggerModal",function(){
-        // $("#modal").modal("show").find("#modalContent").load($(this).attr("value"));
-        // });
     var base_url = "$base_url";
     $(".btn-add-to-cart").click(function(e){
         e.preventDefault();
@@ -257,21 +253,19 @@ $script = <<<JS
     });
     
     $(document).ready(function () {
-            $(".block").slice(0, 6).show();
+            $(".block").slice(0, 12).show();
             if ($(".block:hidden").length != 0) {
                 $("#load_more").show();    
             }
             $("#load_more").on("click", function (e) {
                 e.preventDefault();
-                $(".block:hidden").slice(0, 6).delay(600).slideDown();
+                $(".block:hidden").slice(0, 12).slideDown();
                 if ($(".block:hidden").length == 0) {
                     $("#load_more").text("No More to view")
                         .fadOut("slow");
                 }
-                
             });
         })
-
 JS;
 
 $this->registerJs($script);
