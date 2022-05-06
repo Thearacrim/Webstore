@@ -51,20 +51,22 @@ $base_url = Yii::getAlias('@web');
 
                                 onApprove: function(data, actions) {
                                     return actions.order.capture().then(function(orderData) {
-                                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                                        console.log('Capture result', orderData);
+                                        // console.log('type result', typeof orderData);
+                                        // console.log("capture result zipe code :", orderData[0])
+                                        var postal_code = orderData.purchase_units[0].shipping.address.postal_code;
+                                        // console.log(postal_code)
                                         var transaction = orderData.purchase_units[0].payments.captures[0];
                                         var status = transaction.status;
+                                        var payer_id = orderData.id;
                                         var id = $('.sec-border').data("id");
-                                        // console.log(status);
                                         $.ajax({
                                             url: '<?= Url::to('payment') ?>',
                                             method: 'POST',
-                                            // data: {
-                                            //     transaction: transaction,
-                                            //     status: status,
-                                            //     id: id,
-                                            //     action: 'info_detail',
-                                            // },
+                                            data: {
+                                                payer_id: payer_id,
+                                                postal_code: postal_code
+                                            },
                                             success: function(res) {
                                                 var data = JSON.parse(res);
                                                 console.log([data]);
@@ -77,8 +79,6 @@ $base_url = Yii::getAlias('@web');
                                                 console.log(err);
                                             }
                                         });
-                                        // alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
-
                                     });
                                 },
 

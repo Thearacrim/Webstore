@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use backend\models\Banner;
 use backend\models\Cart;
+use backend\models\Invoices;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -380,37 +381,8 @@ class SiteController extends Controller
 
     public function actionStoreWatch()
     {
-        // if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
-        //     if (Yii::$app->user->isGuest) {
-        //         return $this->redirect(['site/login']);
-        //     }
-
-        //     $id = $this->request->post('id');
-        //     $userId = Yii::$app->user->id;
-        //     $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $userId])->one();
-        //     if ($cart) {
-        //         $cart->quantity++;
-        //     } else {
-        //         $cart = new Cart();
-        //         $cart->user_id = $userId;
-        //         $cart->product_id = $id;
-        //         $cart->quantity = 1;
-        //     }
-        //     if ($cart->save()) {
-        //         $totalCart = Cart::find()->select(['SUM(quantity) quantity'])->where(['user_id' => $userId])->one();
-        //         $totalCart = $totalCart->quantity;
-        //         return json_encode(['status' => 'success', 'totalCart' => $totalCart]);
-        //     } else {
-        //         return json_encode(['status' => 'error', 'message' => "something went wrong."]);;
-        //     }
-
-        //     return json_encode(['success' => true]);
-        // }
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->where(['type_item' => 5]),
-            'pagination' => [
-                'pageSize' => 9
-            ]
         ]);
 
         return $this->render('stores/store-watch', [
@@ -450,9 +422,6 @@ class SiteController extends Controller
         }
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->where(['type_item' => 2]),
-            'pagination' => [
-                'pageSize' => 9
-            ]
         ]);
 
         return $this->render('stores/store-man', [
@@ -494,9 +463,6 @@ class SiteController extends Controller
         }
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->where(['type_item' => 1]),
-            'pagination' => [
-                'pageSize' => 9
-            ]
         ]);
 
         return $this->render('stores/store-women', [
@@ -510,9 +476,6 @@ class SiteController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->where(['type_item' => 3]),
-            'pagination' => [
-                'pageSize' => 9
-            ]
         ]);
         return $this->render('stores/store-glasses', [
             'dataProvider' => $dataProvider
@@ -522,9 +485,6 @@ class SiteController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->where(['type_item' => 6]),
-            'pagination' => [
-                'pageSize' => 9
-            ]
         ]);
         return $this->render('stores/store-shoes', [
             'dataProvider' => $dataProvider
@@ -669,6 +629,7 @@ class SiteController extends Controller
         if ($this->request->isAjax && $this->request->isPost) {
             $userId = Yii::$app->user->id;
             $profile = Yii::$app->user->identity->username;
+            $payer_id = $this->request->post('payer_id');
             $carts = Cart::find()->where(['user_id' => $userId])->all();
             $customer = Customer::find()->where(['name' => $profile])->one();
             $product = Yii::$app->db->createCommand("SELECT 
@@ -686,6 +647,7 @@ class SiteController extends Controller
                 $customer->save();
             }
             $order = new Order();
+            $order->code = $payer_id;
             $order->customer_id = $customer->id;
             $order->sub_total = $product['sub_total'];
             $order->created_date = date('Y-m-d H:i:s');
@@ -693,16 +655,22 @@ class SiteController extends Controller
             if ($order->save()) {
                 $order_item_values = [];
                 foreach ($carts as $cart) {
-                    array_push($order_item_values, [$order->id, $cart->product_id, $cart->color_id, $cart->size_id, $cart->quantity, $cart->product->price, $cart->product->price * $cart->quantity]);
+                    array_push($order_item_values, [$order->id, $cart->product_id, $cart->color_id, $cart->size_id, $cart->quantity, $cart->product->price, $cart->product->price * $cart->quantity, date('Y-m-d H:i:s')]);
                 }
                 $query = Yii::$app->db->createCommand()->batchInsert(
                     'order_item',
-                    ['order_id', 'product_id', 'color', 'size', 'qty', 'price', 'total'],
+                    ['order_id', 'product_id', 'color', 'size', 'qty', 'price', 'total', 'created_date'],
                     $order_item_values
                 );
                 if ($query->execute()) {
-                    Cart::deleteAll(['id' => ArrayHelper::getColumn($carts, 'id')]);
-                    return $this->redirect(['site/success']);
+                    $invoices = new Invoices();
+                    $invoices->Customer_id = $customer->id;
+                    $invoices->Type = "Invoices";
+                    $invoices->status = "Paid";
+                    if ($invoices->save()) {
+                        Cart::deleteAll(['id' => ArrayHelper::getColumn($carts, 'id')]);
+                        return $this->redirect(['site/success']);
+                    }
                 }
             }
         }
@@ -714,8 +682,6 @@ class SiteController extends Controller
 
         return $this->render('success');
     }
-
-
 
     public function actionProfile()
     {

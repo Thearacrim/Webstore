@@ -460,7 +460,9 @@ $script = <<< JS
                         }
                 });
                 });
-    
+    $(".action_delete").click(function(){
+        console.log("hi");
+    })
 
     JS;
 $this->registerJs($script);

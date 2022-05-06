@@ -61,12 +61,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         [
                             'attribute' => 'color',
+                            'format' => 'html',
                             'value' => function ($model) {
                                 return $model->getColor();
                             }
                         ],
                         [
                             'attribute' => 'size',
+                            'format' => 'html',
                             'value' => function ($model) {
                                 return $model->getSize();
                             }
@@ -95,12 +97,41 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'style' => 'width:100px;'
                             ]
                         ],
+                        // [
+                        //     'class' => ActionColumn::className(),
+                        //     'urlCreator' => function ($action, OrderItem $model, $key, $index, $column) {
+                        //         return Url::toRoute([$action, 'id' => $model->id]);
+                        //     },
+                        //     'header' => 'action',
+                        // ],
                         [
-                            'class' => ActionColumn::className(),
-                            'urlCreator' => function ($action, OrderItem $model, $key, $index, $column) {
-                                return Url::toRoute([$action, 'id' => $model->id]);
-                            },
-                            'header' => 'action',
+                            'class' => 'yii\grid\ActionColumn',
+                            // 'contentOptions' => ['style' => 'width: 7%'],
+                            'visible' => Yii::$app->user->isGuest ? false : true,
+                            'buttons' => [
+                                'view' => function ($url) {
+                                    return Html::a('<i class="fa-solid fa-eye"></i>', $url, ['class' => 'glyphicon glyphicon-eye-open btn btn-outline-info btn-sm rounded-circle btn-xs custom_button']);
+                                },
+                                'update' => function ($url) {
+                                    return Html::a('<i class="fa-solid fa-pen-fancy"></i>', $url, ['class' => 'glyphicon glyphicon-pencil btn btn-outline-info btn-sm rounded-circle btn-xs custom_button']);
+                                },
+                                'delete' => function ($url, $model) {
+                                    return Html::a('<i class="fa-solid fa-trash-can"></i>', $url, [
+                                        'title' => Yii::t('app', 'Delete'),
+                                        'data-confirm' => 'Are you sure you want to delete this item?',
+                                        'data-method' => 'POST',
+                                        'class' => 'glyphicon glyphicon-pencil btn btn-outline-info btn-sm rounded-circle btn-xs button_delete'
+                                    ]);
+                                }
+                                // 'delete' => function ($url) {
+                                //     return Html::a('<i class="fa-solid fa-trash-can"></i>', $url, [
+                                //         'title' => Yii::t('app', 'Delete'),
+                                //         'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
+                                //         'data-method' => 'post', 'data-pjax' => '0',
+                                //         'class' => 'glyphicon glyphicon-pencil btn btn-outline-primary rounded-circle btn-xs button_delete'
+                                //     ]);
+                                // }
+                            ],
                         ],
                     ],
                 ]); ?>
@@ -108,3 +139,30 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+
+<?php
+$script = <<< JS
+
+$('#btnTest').on('click', function() {
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+    if (result.isConfirmed) {
+        Swal.fire(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+        )
+    }
+    })
+})
+
+JS;
+$this->registerJS($script);
+?>

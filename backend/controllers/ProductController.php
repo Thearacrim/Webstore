@@ -151,10 +151,14 @@ class ProductController extends Controller
                 $model->image_url->saveAs($upload_path . $imagename . '.' . $model->image_url->extension);
                 //save file uploaded to db
                 $model->image_url = 'uploads/' . $imagename . '.' . $model->image_url->extension;
+                // print_r($model->image_url);
             }
-            $model->save();
-
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                print_r($model->getErrors());
+                exit;
+            }
         }
 
         return $this->render('update', [

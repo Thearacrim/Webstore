@@ -54,17 +54,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 ",
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
+                        'code',
                         [
                             'attribute' => 'customer_id',
                             'value' => 'order.name'
                         ],
-                        [
-                            'attribute' => 'sub_total',
-                            'format' => ['currency'],
-                            'contentOptions' => [
-                                'style' => 'width:100px;'
-                            ]
-                        ],
+                        // [
+                        //     'attribute' => 'sub_total',
+                        //     'format' => ['currency'],
+                        //     'contentOptions' => [
+                        //         'style' => 'width:100px;'
+                        //     ]
+                        // ],
                         //'discount',
                         // 'grand_total',
                         [
@@ -81,18 +82,67 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                         ],
                         //'created_by',
+                        // [
+                        //     'class' => ActionColumn::className(),
+                        //     'urlCreator' => function ($action, Order $model, $key, $index, $column) {
+                        //         return Url::toRoute([$action, 'id' => $model->id]);
+                        //     },
+                        //     'header' => 'action',
+                        // ],
                         [
-                            'class' => ActionColumn::className(),
-                            'urlCreator' => function ($action, Order $model, $key, $index, $column) {
-                                return Url::toRoute([$action, 'id' => $model->id]);
-                            },
-                            'header' => 'action',
+                            'class' => 'yii\grid\ActionColumn',
+                            // 'contentOptions' => ['style' => 'width: 7%'],
+                            'visible' => Yii::$app->user->isGuest ? false : true,
+                            'buttons' => [
+                                'view' => function ($url) {
+                                    return Html::a('<i class="fa-solid fa-eye"></i>', $url, ['class' => 'glyphicon glyphicon-eye-open btn btn-outline-info btn-sm rounded-circle btn-xs custom_button']);
+                                },
+                                'update' => function ($url) {
+                                    return Html::a('<i class="fa-solid fa-pen-fancy"></i>', $url, ['class' => 'glyphicon glyphicon-pencil btn btn-outline-info btn-sm rounded-circle btn-xs custom_button']);
+                                },
+                                'delete' => function ($url) {
+                                    return Html::a('<i class="fa-solid fa-trash-can"></i>', $url, [
+                                        'title' => Yii::t('app', 'Delete'),
+                                        'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
+                                        'data-method' => 'post', 'data-pjax' => '0',
+                                        'class' => 'glyphicon glyphicon-pencil btn btn-outline-info btn-sm rounded-circle btn-xs button_delete'
+                                    ]);
+                                }
+                            ],
                         ],
                     ],
-                ]); ?>
+                ]);
+                // echo Yii::$app->user->isGuest ? "yes" : "no";
+                ?>
 
 
             </div>
         </div>
     </div>
 </div>
+
+<?php
+
+$script = <<< JS
+        $('.button_delete').click(function(){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+
+                Toast.fire({
+                icon: 'success',
+                title: 'Delete successfully'
+                })
+        })
+    JS;
+$this->registerJs($script);
+
+?>

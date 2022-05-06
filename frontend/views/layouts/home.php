@@ -43,6 +43,7 @@ Modal::end();
   <?= $this->render("top_nav", ['base_url' => $base_url]) ?>
 
   <?= $this->render("header", ['base_url' => $base_url]) ?>
+  <!-- <main id="swup" class="transition-fade"> -->
 
   <?= $this->render("modal", ['base_url' => $base_url]) ?>
 
@@ -51,7 +52,7 @@ Modal::end();
   <?= $content ?>
 
   <?= $this->render("footer", ['base_url' => $base_url]) ?>
-
+  <!-- </main> -->
   <?php $this->endBody() ?>
 </body>
 

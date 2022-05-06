@@ -31,14 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'code',
-            'customer_id',
-            'note',
-            'sub_total',
-            'discount',
-            'grand_total',
-            'status',
+            [
+                'attribute' => 'customer_id',
+                'value' => function ($model) {
+                    return $model->order->name; //access through data relationship
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return $model->getTypeTemp();
+                }
+            ],
             'created_date',
-            'created_by',
         ],
     ]) ?>
 

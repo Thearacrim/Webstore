@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
+$frontend_url = str_replace("backend", 'frontend', Yii::$app->request->baseUrl);
 /* @var $this yii\web\View */
 /* @var $model backend\models\Product */
 
@@ -17,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
+    <p class="text-left">
         <a class='btn btn-primary' href="<?= Url::to(['/product']) ?>">Home</a>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -28,18 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'status',
-            'type_item',
-            'category_id',
-            'price',
-            'image_url:url',
-            'description',
-        ],
-    ]) ?>
-
+    <div class="card border-secondary rounded-0" style="width: 20rem;">
+        <img src="<?= $frontend_url ?>/<?= $model->image_url ?>" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title"><?= $model->status ?></h5>
+            <p class="card-text"><?= $model->description ?></p>
+            <h4 class="fw-bold text-dark">$<?= $model->price ?></h4>
+        </div>
+    </div>
 </div>

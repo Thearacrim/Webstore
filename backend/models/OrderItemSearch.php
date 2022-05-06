@@ -57,11 +57,8 @@ class OrderItemSearch extends OrderItem
             // $query->where('0=1');
             return $dataProvider;
         }
-        $query->andFilterWhere(['between', 'DATE(created_date)', $this->from_date, $this->to_date])
-            ->andFilterWhere([
-                'OR',
-                ['like', 'product_id', $this->globalSearch],
-            ]);
+        $query->andFilterWhere(['between', 'DATE(created_date)', $this->from_date, $this->to_date]);
+        $query->andFilterWhere(['like', 'product_id', $this->globalSearch]);
 
         return $dataProvider;
     }

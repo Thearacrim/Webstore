@@ -72,7 +72,7 @@ class OrderSearch extends Order
         $query->andFilterWhere(['between', 'DATE(created_date)', $this->from_date, $this->to_date])
             ->andFilterWhere([
                 'OR',
-                ['like', 'product_id', $this->globalSearch],
+                ['like', 'customer_id', $this->globalSearch],
                 // ['like', 'price', $this->globalSearch],
                 // ['like', 'created_date', $this->globalSearch],
 

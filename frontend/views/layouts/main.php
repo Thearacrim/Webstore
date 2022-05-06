@@ -6,6 +6,7 @@
 use backend\models\Product;
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
+// use frontend\assets\SwupAsset;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\Modal;
@@ -14,7 +15,7 @@ use yii\bootstrap4\NavBar;
 
 $base_url = Yii::getAlias("@web");
 $meta = Product::find()->where(['id' => 1]);
-
+// SwupAsset::register($this);
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -51,21 +52,17 @@ Modal::end();
         <?= $this->render("header", ['base_url' => $base_url]) ?>
     </header>
     <div class="header-space"></div>
+    <!-- <main id="swup" class="transition-fade"> -->
+
     <?= $this->render("modal", ['base_url' => $base_url]) ?>
 
     <?= $content ?>
 
     <?= $this->render("footer", ['base_url' => $base_url]) ?>
-
+    <!-- </main> -->
 
     <?php $this->endBody() ?>
 </body>
 
 </html>
 <?php $this->endPage(); ?>
-
-<?php
-$script = <<< JS
-
-    JS;
-$this->registerJs($script);

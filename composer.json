@@ -27,7 +27,8 @@
     "sjaakp/yii2-loadmore": "*",
     "yii2tech/csv-grid": "1.0.x-dev",
     "mohorev/yii2-upload-behavior": "*",
-    "yiisoft/yii2-imagine": "^2.3"
+    "yiisoft/yii2-imagine": "^2.3",
+    "kartik-v/yii2-mpdf": "dev-master"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

@@ -93,14 +93,34 @@
                                     return $model->getTypeTemp();
                                 }
                             ],
+                            // [
+                            //     'class' => ActionColumn::class,
+                            //     'urlCreator' => function ($action, $model, $key, $index, $column) {
+                            //         return Url::toRoute([$action, 'id' => $model->id]);
+                            //     },
+                            //     'header' => 'action',
+                            //     'headerOptions' => ['class' => 'text-center'],
+                            //     'contentOptions' => ['class' => 'text-center'],
+                            // ],
                             [
-                                'class' => ActionColumn::class,
-                                'urlCreator' => function ($action, $model, $key, $index, $column) {
-                                    return Url::toRoute([$action, 'id' => $model->id]);
-                                },
-                                'header' => 'action',
-                                'headerOptions' => ['class' => 'text-center'],
-                                'contentOptions' => ['class' => 'text-center'],
+                                'class' => 'yii\grid\ActionColumn',
+                                'visible' => Yii::$app->user->isGuest ? false : true,
+                                'buttons' => [
+                                    'view' => function ($url) {
+                                        return Html::a('<i class="fa-solid fa-eye"></i>', $url, ['class' => 'glyphicon glyphicon-eye-open btn btn-outline-info btn-sm rounded-circle btn-xs custom_button']);
+                                    },
+                                    'update' => function ($url) {
+                                        return Html::a('<i class="fa-solid fa-pen-fancy"></i>', $url, ['class' => 'glyphicon glyphicon-pencil btn btn-outline-info btn-sm rounded-circle btn-xs custom_button']);
+                                    },
+                                    'delete' => function ($url) {
+                                        return Html::a('<i class="fa-solid fa-trash-can"></i>', $url, [
+                                            'title' => Yii::t('app', 'Delete'),
+                                            'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
+                                            'data-method' => 'post', 'data-pjax' => '0',
+                                            'class' => 'glyphicon glyphicon-pencil btn btn-outline-info btn-sm rounded-circle btn-xs button_delete'
+                                        ]);
+                                    }
+                                ],
                             ],
                         ],
                     ]); ?>

@@ -9,31 +9,45 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="order-form">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card p-5">
+                <?php $form = ActiveForm::begin(); ?>
+                <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+                <?= $form->field($model, 'customer_id')->textInput() ?>
 
-    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'status')->textInput() ?>
 
-    <?= $form->field($model, 'customer_id')->textInput() ?>
+                <div class="form-group text-center">
+                    <?= Html::submitButton('Save', ['class' => 'btn btn-primary w-25 rounded-0', 'id' => 'btn_save']) ?>
+                </div>
 
-    <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'sub_total')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'discount')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'grand_total')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'created_date')->textInput() ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?php ActiveForm::end(); ?>
+            </div>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>
+<?php
+$script = <<< JS
+    $("#btn_save").click(function(){
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+            })
+
+            Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully'
+            })
+    })
+    JS;
+$this->registerJS($script);
+?>

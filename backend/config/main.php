@@ -1,6 +1,7 @@
 <?php
 
 use yii\web\Request;
+use kartik\mpdf\Pdf;
 
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
@@ -26,6 +27,13 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+        ],
+        'pdf' => [
+            'class' => Pdf::classname(),
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_BROWSER,
+            // refer settings section for all configuration options
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend

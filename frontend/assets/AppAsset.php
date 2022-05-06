@@ -33,8 +33,10 @@ class AppAsset extends AssetBundle
         'https://polyfill.io/v3/polyfill.min.js?features=default',
         'https://unpkg.com/aos@2.3.1/dist/aos.js',
         'template/js/scrollfixed.js',
-        'template/typeahead.js/typeahead.bundle.min.js',
+        'template/js/swup.js',
         'https://polyfill.io/v3/polyfill.min.js?features=default',
+        'swup/dist/swup.min.js',
+        // 'https://unpkg.com/swup@latest/dist/swup.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

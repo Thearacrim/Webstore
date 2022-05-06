@@ -40,7 +40,7 @@ use dosamigos\ckeditor\CKEditor;
 
             <?= $form->field($model, 'type_item')->dropDownList(['1' => 'Women', '2' => 'Man', '3' => 'Glasses', '4' => 'Bag', '5' => 'watch', '6' => 'Shores'], ['placeholder' => 'Type Item'])->label(false) ?>
             <div class="text-center">
-                <?= Html::submitButton('Save', ['class' => 'btn btn-primary w-50 rounded-0']) ?>
+                <?= Html::submitButton('Save', ['class' => 'btn btn-primary w-50 rounded-0', 'id' => "btn_save"]) ?>
             </div>
         </div>
     </div>
@@ -64,6 +64,24 @@ $script = <<< JS
             preview.style.display = "block";
         }
     });
+    $("#btn_save").click(function(){
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+            })
+
+            Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully'
+            })
+    })
     JS;
 $this->registerJs($script);
 

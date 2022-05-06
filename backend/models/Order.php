@@ -68,8 +68,6 @@ class Order extends \yii\db\ActiveRecord
                 $this->created_date = date('Y-m-d H:i:s');
                 $this->created_by = Yii::$app->user->identity->id;
             } else {
-                $this->updated_date = date('Y-m-d H:i:s');
-                $this->updated_by = Yii::$app->user->identity->id;
             }
             return true;
         } else {

@@ -32,12 +32,13 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             [['category_id', 'description', 'price', 'status'], 'required'],
-            [['category_id', 'created_date', 'created_by', 'updated_date'], 'integer'],
+            [['category_id'], 'integer'],
             [['image_url'], 'file'],
             // [['image_url'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['rate'], 'number'],
             [['status', 'image_url', 'description'], 'string', 'max' => 255],
             [['price', 'type_item'], 'string', 'max' => 100],
+            [['created_date', 'created_by', 'updated_date', 'updated_by'], 'safe']
         ];
     }
 
@@ -69,7 +70,6 @@ class Product extends \yii\db\ActiveRecord
                 $this->created_by = Yii::$app->user->identity->id;
             } else {
                 $this->updated_date = date('Y-m-d H:i:s');
-                $this->updated_by = Yii::$app->user->identity->id;
             }
             return true;
         } else {
