@@ -36,6 +36,7 @@ class AppAsset extends AssetBundle
         'template/js/swup.js',
         'https://polyfill.io/v3/polyfill.min.js?features=default',
         'swup/dist/swup.min.js',
+        'template/js/lang.js',
         // 'https://unpkg.com/swup@latest/dist/swup.min.js'
     ];
     public $depends = [

@@ -21,7 +21,7 @@ $updated = Yii::$app->session->hasFlash('success') ? 1 : 0;
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '',
                 'method' => 'post',
             ],
         ]) ?>

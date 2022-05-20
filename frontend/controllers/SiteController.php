@@ -28,6 +28,7 @@ use frontend\models\User;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
+use yii\web\Cookie;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -81,6 +82,33 @@ class SiteController extends Controller
             ],
         ];
     }
+
+    // public function actionLanguage()
+    // {
+    //     $language = Yii::$app->request->post('language');
+    //     Yii::$app->language = $language;
+
+    //     $languageCookie = new Cookie([
+    //         'name' => 'language',
+    //         'value' => $language,
+    //         'expire' => time() + 60 * 60 * 24 * 30, // 30 days
+    //     ]);
+    //     Yii::$app->response->cookies->add($languageCookie);
+
+    //     $localeCookie = new yii\web\Cookie([
+    //         'name' => 'locale',
+    //         'value' => Yii::$app->params['formattedLanguages'][$language]['locale'],
+    //         'expire' => time() + 60 * 60 * 24 * 30, // 30 days
+    //     ]);
+    //     Yii::$app->response->cookies->add($localeCookie);
+
+    //     $calendarCookie = new yii\web\Cookie([
+    //         'name' => 'calendar',
+    //         'value' => Yii::$app->params['formattedLanguages'][$language]['calendar'],
+    //         'expire' => time() + 60 * 60 * 24 * 30, // 30 days
+    //     ]);
+    //     Yii::$app->response->cookies->add($calendarCookie);
+    // }
     /**
      * Displays homepage.
      *
@@ -175,8 +203,9 @@ class SiteController extends Controller
             if ($this->request->post('action') == 'item-quantity') {
                 $id = $this->request->post('id');
                 $type = $this->request->post('type');
-                // return $id;
-                // exit;
+
+                return 1;
+                exit;
                 $current_user = Yii::$app->user->identity->id;
                 $cart = Cart::find()->where(['product_id' => $id, 'user_id' => $current_user])
                     ->one();
@@ -610,7 +639,6 @@ class SiteController extends Controller
                 ->bindParam('userId', $userId)
                 ->queryAll();
             $totalCart = Cart::find()->select(['user_id'])->where(['user_id' => $current_user])->count();
-
             return $this->render(
                 'checkout',
                 [
@@ -621,7 +649,8 @@ class SiteController extends Controller
                 ]
             );
         } else {
-            throw new NotFoundHttpException('please add some item to your cart.');
+            Yii::$app->session->setFlash('error', 'Please Add some product!');
+            return $this->redirect('cart');
         }
     }
     public function actionPayment()

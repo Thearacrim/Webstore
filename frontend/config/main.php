@@ -13,18 +13,39 @@ $params = array_merge(
 return [
     'id' => 'app-website_frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+    ],
+    'language' => 'en-US',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
             'baseUrl' => $baseUrl,
         ],
-
+        [
+            'class' => 'frontend\components\LanguageSelector',
+            'supportedLanguages' => ['en-US', 'th-TH'],
+        ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+        ],
+        'sourceLanguage' => 'en-US',
+        'language' => 'kh',
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    //'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -51,16 +72,9 @@ return [
         ],
 
         'urlManager' => [
-            // 'baseUrl' => $baseUrl,
-            'showScriptName' => false, // Disable index.php
-            'enablePrettyUrl' => true, // Disable r= routes
-            'rules' => array(
-                // 'home' => 'site/index',
-                // 'about' => 'site/about',
-                // 'contact' => 'site/contact',
-                // 'add-cart' => 'site/add-cart',
-                // 'store-single/id/<id:\d+>' => 'site/store-single/id/<id:\d+>'
-            ),
+            'showScriptName' => false,
+            'enablePrettyUrl' => true,
+            'rules' => array(),
         ],
 
     ],

@@ -9,5 +9,18 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'i18n' => [
+            'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    //'basepath' => @app/messages,
+                    'sourceLanguage' => 'it',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
+        ],
     ],
 ];

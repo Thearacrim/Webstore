@@ -4,9 +4,6 @@ use backend\models\Cart;
 use yii\base\Model;
 use frontend\models\User;
 use yii\bootstrap4\Html;
-use yii\bootstrap4\Modal;
-use yii\bootstrap4\Nav;
-use yii\bootstrap4\NavBar;
 use yii\helpers\Url;
 
 $model = User::findOne(Yii::$app->user->id);
@@ -50,6 +47,13 @@ if (\Yii::$app->user->isGuest) {
           <li class="nav-item">
             <a class="nav-link" href="<?= Url::to(['site/contact']) ?>">Contact</a>
           </li>
+          <?= Html::beginForm(['site/language'], 'post', [
+            'enctype' => 'multipart/form-data',
+            'id' => 'lang-form',
+          ]) ?>
+          <?= Html::dropDownList('language', Yii::$app->language, ['en-US' => 'English', 'th-TH' => 'Thai']) ?>
+          <?= Html::submitButton('Change') ?>
+          <?= Html::endForm() ?>
         </ul>
       </div>
       <div class="navbar align-self-center d-flex">
@@ -79,7 +83,6 @@ if (\Yii::$app->user->isGuest) {
           <a style="cursor:poiter" value="<?= Url::to(['/site/login']) ?>" class="pl-3 trigggerModal">Login <i class="fas fa-sign-in-alt"></i></a>
           <span class="text-dark p-3 fw-bold">|</span>
           <a style="cursor:poiter" value="<?= Url::to(['/site/sign']) ?>" class="trigggerModal">SignUp<i class="fas fa-sign-up-alt"></i></a>
-
         <?php
         } else {
         ?>
@@ -117,3 +120,29 @@ if (\Yii::$app->user->isGuest) {
   </div>
 </nav>
 <!-- Close Header -->
+
+<?php
+$add_cart_url = Url::to(['site/change-quantity']);
+$script = <<< JS
+        $("form#lang-form").submit(function () {
+          var base_url = "$add_cart_url";
+          var form = $(this);
+          // submit form
+          $.ajax({
+            url: "$base_url",
+            type: "post",
+            data: form.serialize(),
+            success: function (response) {
+              // reload the page after selecting a language
+              location.reload();
+            },
+            error: function () {
+              console.log("Ajax: internal server error");
+            },
+          });
+          return false;
+        });
+        JS;
+$this->registerJs($script);
+
+?>

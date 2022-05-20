@@ -19,6 +19,20 @@ Yii::$app->params['og_image']['content'] = 'image.jpg';
 ?>
 <div class="container">
     <div class="cart-main">
+        <?php
+        if (Yii::$app->session->hasFlash('success')) : ?>
+            <div class="alert alert-success" role="alert">
+                <?= Yii::$app->session->getFlash('success') ?>
+            </div>
+        <?php elseif (Yii::$app->session->hasFlash('Error')) : ?>
+            <div class="alert alert-danger" role="alert">
+                <?= Yii::$app->session->getFlash('alert') ?>
+            </div>
+        <?php elseif (Yii::$app->session->hasFlash('error')) : ?>
+            <div class="alert alert-danger" role="alert">
+                <?= Yii::$app->session->getFlash('error') ?>
+            </div>
+        <?php endif; ?>
         <div class="row">
             <div class="col-lg-8 col-md-8 col-sm-12">
                 <div class="loader">
